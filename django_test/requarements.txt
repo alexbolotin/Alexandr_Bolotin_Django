@@ -2,7 +2,6 @@ asgiref==3.5.2
 autopep8==1.6.0
 colorama==0.4.4
 Django==4.0.5
-num2t4ru==2.0.0
 requests==2.27.1
 sqlparse==0.4.2
 tzdata==2022.1
