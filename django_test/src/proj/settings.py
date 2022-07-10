@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xas027x+@lx1cb9jnqm@yjn@zo@ps#s^!ay%ap_+g+71gv(5y8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['Bolotin.pythonanywhere.com']
-
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hello_world',
+    'directory',
 ]
 
 MIDDLEWARE = [

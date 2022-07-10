@@ -1,7 +1,7 @@
 from django.shortcuts import HttpResponse, render
 from random import randint
 import datetime
-import time
+
 
 # Create your views here.
 NAMES = ('Ivan', 'Kolia', 'Vasia')
