@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-xas027x+@lx1cb9jnqm@yjn@zo@ps#s^!ay%ap_+g+71gv(5y8
 DEBUG = True
 
 ALLOWED_HOSTS = ['bolotin.pythonanywhere.com']
-ALLOWED_HOSTS = ['127.0.0.1']
+# ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
