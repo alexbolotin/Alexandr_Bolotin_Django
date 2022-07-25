@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series view</title>
+</head>
+<body>
+    <h1>Series view</h1>
+    <ul>
+        {% for series in object_list %}
+        <li>
+            <a href="/dirs/series_view/{{ series.pk }}">{{ series.name }}</a>
+            <a href="/dirs/series_edit/{{ series.pk }}">(EDIT)    |</a>
+            <a href="/dirs/series_delete/{{ series.pk }}">|    (DELETE)</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+<a href="/dirs/authors_view/">All Authors</a>    ||    
+<a href="/dirs/books_view/">All Books</a>    ||
+<a href="/dirs/publishings_view/">All Publishings Houses</a>
+</body>
+</html>

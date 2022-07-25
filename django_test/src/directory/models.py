@@ -1,5 +1,3 @@
-from enum import unique
-from re import T
 from django.db import models
 
 # Create your models here.
@@ -32,7 +30,6 @@ class Book(models.Model):
     )
     author = models.ManyToManyField(
         'directory.Author',
-        # on_delete=models.PROTECT,
         verbose_name='Author',
         related_name='author'
     )
@@ -40,8 +37,28 @@ class Book(models.Model):
         verbose_name='Book name',
         max_length=30,
     )
+
+    series = models.CharField(
+        verbose_name='Book series',
+        max_length=30,
+    )
+
     description= models.TextField(
         verbose_name='Book description',
+        blank =  True,
+        null = True
+    )
+
+    def __str__(self) -> str:
+        return str(self.pk) + '. ' + self.name
+
+class Series(models.Model):
+    name = models.CharField(
+        verbose_name='Series',
+        max_length=30,
+    )
+    description= models.TextField(
+        verbose_name='Series description',
         blank =  True,
         null = True
     )
@@ -76,3 +93,5 @@ class Author(models.Model):
 
     def __str__(self) -> str:
         return str(self.pk) + '. ' + self.name
+
+

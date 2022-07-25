@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books view</title>
+</head>
+<body>
+    <h1>Books view</h1>
+    Date {{ date }}
+    <ul>
+        {% for book in object_list %}
+        <li>
+            <a href="/book_view/{{ book.pk }}">{{ book.name }}</a>
+            <a href="/book_edit/{{ book.pk }}">(EDIT)    |</a>
+            <a href="/book_delete/{{ book.pk }}">|    (DELETE)</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+<a href="/dirs/authors_view/">All Authors</a>    ||    
+<a href="/dirs/publishings_view/">All Publishings houses</a>    ||
+<a href="/dirs/serieses_view/">All Series</a>
+
+</body>
+</html>
