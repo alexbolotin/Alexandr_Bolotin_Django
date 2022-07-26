@@ -24,22 +24,38 @@ class BooksList(generic.ListView):
         context['date'] = datetime.now().date
         return context
 
-class BookView(generic.DeleteView):
+class BookView(generic.DetailView):
     template_name = "directory/book_view.html"
     model = models.Book
  
     def get_context_data(self,*args, **kwargs):
+
+        def list_to_str(value):
+            text = ''
+            if len(value) == 1:
+                text = value[0].name
+            else:
+                for author in value:
+                    text += str(author.name) + '; '
+            return text
+
         context = super().get_context_data(*args, **kwargs)
         context['date'] = datetime.now().date
+
+        book = models.Book.objects.get(pk = self.object.pk)
+        context['author'] = list_to_str(book.author.all())
+        context['genre'] = list_to_str(book.genre.all())
+        
         return context
 
+    
 class BookAdd(generic.CreateView):
     template_name = "directory/book_add.html"
     model = models.Book
     form_class = forms.AddBookForm
     
     def get_success_url(self):
-        return reverse_lazy("book-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:book-view", kwargs = {'pk' : self.object.pk})
 
 class BookEdit(generic.UpdateView):
     template_name = "directory/book_edit.html"
@@ -47,15 +63,15 @@ class BookEdit(generic.UpdateView):
     form_class = forms.AddBookForm
 
     def get_success_url(self):
-        return reverse_lazy("book-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:book-view", kwargs = {'pk' : self.object.pk})
 
 class BookDelete(generic.DeleteView):
     template_name = "directory/book_delete.html"
     model = models.Book
-    success_url = "/books_view/"
+    success_url = "/dirs/books_view/"
 
 # Authors
-class AuthorView(generic.DeleteView):
+class AuthorView(generic.DetailView):
     template_name = "directory/author_view.html"
     model = models.Author
 
@@ -69,12 +85,12 @@ class AuthorEdit(generic.UpdateView):
     form_class = forms.AddAuthorForm
 
     def get_success_url(self):
-        return reverse_lazy("author-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:author-view", kwargs = {'pk' : self.object.pk})
 
 class AuthorDelete(generic.DeleteView):
     template_name = "directory/author_delete.html"
     model = models.Author
-    success_url = "/authors_view/"
+    success_url = "/dirs/authors_view/"
 
 class AuthorAdd(generic.CreateView):
     template_name = "directory/author_add.html"
@@ -82,7 +98,7 @@ class AuthorAdd(generic.CreateView):
     form_class = forms.AddAuthorForm
     
     def get_success_url(self):
-        return reverse_lazy("author-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:author-view", kwargs = {'pk' : self.object.pk})
 
 # Publishings
 class PublishingsList(generic.ListView):
@@ -99,7 +115,7 @@ class PublishingAdd(generic.CreateView):
     form_class = forms.AddPublishingForm
 
     def get_success_url(self):
-        return reverse_lazy("publishing-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:publishing-view", kwargs = {'pk' : self.object.pk})
 
 class PublishingEdit(generic.UpdateView):
     template_name = "directory/publishing_add.html"
@@ -107,12 +123,12 @@ class PublishingEdit(generic.UpdateView):
     form_class = forms.AddPublishingForm
 
     def get_success_url(self):
-        return reverse_lazy("publishing-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:publishing-view", kwargs = {'pk' : self.object.pk})
 
 class PublishingDelete(generic.DeleteView):
     template_name = "directory/publishing_delete.html"
     model = models.Publishing_house
-    success_url = "/publishings_view/"
+    success_url = "/dirs/publishings_view/"
 
 # Series
 class SeriesList(generic.ListView):
@@ -129,7 +145,7 @@ class SeriesAdd(generic.CreateView):
     form_class = forms.AddSeriesForm
 
     def get_success_url(self):
-        return reverse_lazy("series-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:series-view", kwargs = {'pk' : self.object.pk})
 
 class SeriesEdit(generic.UpdateView):
     template_name = "directory/series_add.html"
@@ -137,12 +153,12 @@ class SeriesEdit(generic.UpdateView):
     form_class = forms.AddSeriesForm
 
     def get_success_url(self):
-        return reverse_lazy("series-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("dirs:series-view", kwargs = {'pk' : self.object.pk})
 
 class SeriesDelete(generic.DeleteView):
     template_name = "directory/series_delete.html"
     model = models.Series
-    success_url = "/serieses_view/"
+    success_url = "/dirs/serieses_view/"
 
 # 
 # 

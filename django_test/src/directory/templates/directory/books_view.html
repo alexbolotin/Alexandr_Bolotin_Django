@@ -1,27 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books view</title>
-</head>
-<body>
-    <h1>Books view</h1>
-    Date {{ date }}
-    <ul>
-        {% for book in object_list %}
-        <li>
-            <a href="/book_view/{{ book.pk }}">{{ book.name }}</a>
-            <a href="/book_edit/{{ book.pk }}">(EDIT)    |</a>
-            <a href="/book_delete/{{ book.pk }}">|    (DELETE)</a>
-        </li>
-        {% endfor %}
-    </ul>
+{% extends 'base.html' %}
 
+{% block title %}Books view{% endblock title %}
+
+{% block header %}Books view{% endblock header %}
+
+{% block body %}
+    Date {{ date }}
+    <br><br>
+    <table border="1">
+        <tr>
+            <td>Book name</td>    
+            <td>Book action</td> 
+            <td>Book action</td>      
+        </tr>
+        {% for book in object_list %}
+        <tr>
+            <td><a href="{% url 'dirs:book-view' book.pk %}">{{ book.name }}</a></td>    
+            <td><a href="{% url 'dirs:book-edit' book.pk %}">(EDIT)</a></td> 
+            <td><a href="{% url 'dirs:book-delete' book.pk %}">(DELETE)</a></td>      
+        </tr>
+        {% endfor %}
+    </table>
+<br><br><br>
+<a href="/dirs/books_view/">All Books</a>    ||    
 <a href="/dirs/authors_view/">All Authors</a>    ||    
 <a href="/dirs/publishings_view/">All Publishings houses</a>    ||
 <a href="/dirs/serieses_view/">All Series</a>
 
-</body>
-</html>
+{% endblock body %}
+
