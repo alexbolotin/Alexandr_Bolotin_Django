@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books view</title>
-</head>
-<body>
-    <h1>Home Page</h1>
+{% extends 'base.html' %}
+
+{% block title %}Home page{% endblock title %}
+
+{% block header %}Home page{% endblock header %}
+
+{% block body %}
+
     User : {{ user }} <br>
     Data: {{date}}
+    <br><br><br>
+    <a href="{% url 'dirs:book-view-all' %}">All Books</a>    ||    
+    <a href="{% url 'dirs:author-view-all' %}">All Authors</a>    ||    
+    <a href="{% url 'dirs:publishing-view-all' %}">All Publishings houses</a>    ||
+    <a href="{% url 'dirs:series-view-all' %}">All Series</a>
 
-</body>
-</html>
+{% endblock body %}

@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publishing view</title>
-</head>
-<body>
-    <h1>Publishing {{ object.name }} view</h1>
-    <b>Description:</b> {{ object.description }}<br><br><br>
-    <a href="/dirs/publishings_view/">All Publishings Houses</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Publishings view{% endblock title %}
+
+{% block header %}Publishing {{ object.name }} view{% endblock header %}
+
+{% block body %}
+    <b>Description:</b> {{ object.description }}
+    <br><br><br>
+    <a href="{% url 'dirs:publishing-view-all' %}">All Publishings Houses</a>
+{% endblock body %}

@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publishings view</title>
-</head>
-<body>
-    <h1>Publishings view</h1>
+{% extends 'base.html' %}
+
+{% block title %}Publishings view{% endblock title %}
+
+{% block header %}Publishings view{% endblock header %}
+
+{% block body %}
     <ul>
         {% for publishing in object_list %}
         <li>
-            <a href="/dirs/publishing_view/{{ publishing.pk }}">{{ publishing.name }}</a>
-            <a href="/dirs/publishing_edit/{{ publishing.pk }}">(EDIT)    |</a>
-            <a href="/dirs/publishing_delete/{{ publishing.pk }}">|    (DELETE)</a>
+            <a href="{% url 'dirs:publishing-view' publishing.pk %}">{{ publishing.name }}</a>
+            <a href="{% url 'dirs:publishing-edit' publishing.pk %}">(EDIT)    |</a>
+            <a href="{% url 'dirs:publishing-delete' publishing.pk %}">|    (DELETE)</a>
         </li>
         {% endfor %}
     </ul>
 
-<a href="/dirs/authors_view/">All Authors</a>    ||    
-<a href="/dirs/books_view/">All Books</a>    ||
-<a href="/dirs/serieses_view/">All Series</a>
-</body>
-</html>
+    <a href="{% url 'dirs:publishing-add' %}">Add Publishings houses</a>   
+    <br><br><br>
+    <a href="{% url 'dirs:book-view-all' %}">All Books</a>    ||    
+    <a href="{% url 'dirs:author-view-all' %}">All Authors</a>    ||    
+    <a href="{% url 'dirs:publishing-view-all' %}">All Publishings houses</a>    ||
+    <a href="{% url 'dirs:series-view-all' %}">All Series</a>
+{% endblock body %}
+

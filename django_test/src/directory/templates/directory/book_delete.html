@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book delete</title>
-</head>
-<body>
-    <h1>Book delete. Are you sure to delete {{ object }} ??</h1>
+{% extends 'base.html' %}
+
+{% block title %}Books view{% endblock title %}
+
+{% block header %}Book delete. Are you sure to delete {{ object.name }} ??{% endblock header %}
+
+{% block body %}
     <ul>
         <form action="" method="post">
             {% csrf_token %}
@@ -15,6 +12,5 @@
             <input type="submit">
         </form>
     </ul>
-    </form>
-</body>
-</html>
+
+{% endblock body %}

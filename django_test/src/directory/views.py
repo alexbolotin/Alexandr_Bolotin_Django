@@ -118,7 +118,7 @@ class PublishingAdd(generic.CreateView):
         return reverse_lazy("dirs:publishing-view", kwargs = {'pk' : self.object.pk})
 
 class PublishingEdit(generic.UpdateView):
-    template_name = "directory/publishing_add.html"
+    template_name = "directory/publishing_edit.html"
     model = models.Publishing_house
     form_class = forms.AddPublishingForm
 
@@ -148,7 +148,7 @@ class SeriesAdd(generic.CreateView):
         return reverse_lazy("dirs:series-view", kwargs = {'pk' : self.object.pk})
 
 class SeriesEdit(generic.UpdateView):
-    template_name = "directory/series_add.html"
+    template_name = "directory/series_edit.html"
     model = models.Series
     form_class = forms.AddSeriesForm
 

@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Series view</title>
-</head>
-<body>
-    <h1>Series view</h1>
+{% extends 'base.html' %}
+
+{% block title %}Series view{% endblock title %}
+
+{% block header %}Series view{% endblock header %}
+
+{% block body %}
     <ul>
         {% for series in object_list %}
         <li>
-            <a href="/dirs/series_view/{{ series.pk }}">{{ series.name }}</a>
-            <a href="/dirs/series_edit/{{ series.pk }}">(EDIT)    |</a>
-            <a href="/dirs/series_delete/{{ series.pk }}">|    (DELETE)</a>
+            <a href="{% url 'dirs:series-view' series.pk %}">{{ series.name }}</a>
+            <a href="{% url 'dirs:series-edit' series.pk %}">(EDIT)    |</a>
+            <a href="{% url 'dirs:series-delete' series.pk %}">|    (DELETE)</a>
         </li>
         {% endfor %}
     </ul>
-
-<a href="/dirs/authors_view/">All Authors</a>    ||    
-<a href="/dirs/books_view/">All Books</a>    ||
-<a href="/dirs/publishings_view/">All Publishings Houses</a>
-</body>
-</html>
+    <a href="{% url 'dirs:series-add' %}">Add series</a>   
+    <br><br><br>
+    <a href="{% url 'dirs:book-view-all' %}">All Books</a>    ||    
+    <a href="{% url 'dirs:author-view-all' %}">All Authors</a>    ||    
+    <a href="{% url 'dirs:publishing-view-all' %}">All Publishings houses</a>    ||
+    <a href="{% url 'dirs:series-view-all' %}">All Series</a>
+{% endblock body %}

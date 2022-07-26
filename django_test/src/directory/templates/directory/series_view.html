@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Series view</title>
-</head>
-<body>
-    <h1>Series {{ object.name }} view</h1>
+{% extends 'base.html' %}
+
+{% block title %}Series view{% endblock title %}
+
+{% block header %}Series {{ object.name }} view{% endblock header %}
+
+{% block body %}
+    
     <b>Description:</b> {{ object.description }}<br><br><br>
-    <a href="/dirs/serieses_view/">All series</a>
-</body>
-</html>
+    <a href="{% url 'dirs:series-view-all' %}">All series</a>
+
+{% endblock body %}
