@@ -25,3 +25,8 @@ class AddSeriesForm(forms.ModelForm):
     class Meta:
         model = models.Series
         fields = '__all__'
+
+class AddGenresForm(forms.ModelForm):
+    class Meta:
+        model = models.Genre
+        fields = '__all__'

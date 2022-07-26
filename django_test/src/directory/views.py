@@ -48,7 +48,6 @@ class BookView(generic.DetailView):
         
         return context
 
-    
 class BookAdd(generic.CreateView):
     template_name = "directory/book_add.html"
     model = models.Book
@@ -161,4 +160,32 @@ class SeriesDelete(generic.DeleteView):
     success_url = "/dirs/serieses_view/"
 
 # 
-# 
+# Genres
+class GenresList(generic.ListView):
+    template_name = "directory/genres_view.html"
+    model = models.Genre
+
+class GenreView(generic.DetailView):
+    template_name = "directory/genre_view.html"
+    model = models.Genre
+
+class GenreAdd(generic.CreateView):
+    template_name = "directory/genre_add.html"
+    model = models.Genre
+    form_class = forms.AddGenreForm
+
+    def get_success_url(self):
+        return reverse_lazy("dirs:genre-view", kwargs = {'pk' : self.object.pk})
+
+class GenreEdit(generic.UpdateView):
+    template_name = "directory/genre_edit.html"
+    model = models.Genre
+    form_class = forms.AddGenreForm
+
+    def get_success_url(self):
+        return reverse_lazy("dirs:genre-view", kwargs = {'pk' : self.object.pk})
+
+class GenreDelete(generic.DeleteView):
+    template_name = "directory/genre_delete.html"
+    model = models.Genre
+    success_url = "/dirs/genres_view/"

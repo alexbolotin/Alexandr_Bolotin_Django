@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Genre view{% endblock title %}
+
+{% block header %}Genre {{ object.name }} view{% endblock header %}
+
+{% block body %}
+    
+    <b>Description:</b> {{ object.description }}<br><br><br>
+    <a href="{% url 'dirs:genres-view-all' %}">All genres</a>
+
+{% endblock body %}

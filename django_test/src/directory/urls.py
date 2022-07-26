@@ -29,4 +29,11 @@ urlpatterns = [
     path('series_edit/<int:pk>/', views.SeriesEdit.as_view(), name = "series-edit"),
     path('series_delete/<int:pk>/', views.SeriesDelete.as_view(), name = "series-delete"),
     path('series_add/', views.SeriesAdd.as_view(), name = "series-add"),
+
+    path('genres_view/', views.SeriesList.as_view(), name = "genres-view-all"),
+    path('genre_view/<int:pk>/', views.SeriesView.as_view(), name = "genre-view"),
+    path('genre_edit/<int:pk>/', views.SeriesEdit.as_view(), name = "genre-edit"),
+    path('genre_delete/<int:pk>/', views.SeriesDelete.as_view(), name = "genre-delete"),
+    path('genre_add/', views.SeriesAdd.as_view(), name = "genre-add"),
+
 ]
