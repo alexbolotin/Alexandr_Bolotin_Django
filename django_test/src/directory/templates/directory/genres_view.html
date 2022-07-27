@@ -9,16 +9,12 @@
         {% for genre in object_list %}
         <li>
             <a href="{% url 'dirs:genre-view' genre.pk %}">{{ genre.name }}</a>
-            <a href="{% url 'dirs:genre-edit' genre.pk %}">(EDIT)    |</a>
-            <a href="{% url 'dirs:genre-delete' genre.pk %}">|    (DELETE)</a>
+            <a href="{% url 'dirs:genre-edit' genre.pk %}"><i class="bi bi-pencil"></i></a>
+            <a href="{% url 'dirs:genre-delete' genre.pk %}"><i class="bi bi-trash"></i></a>
         </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'dirs:genre-add' %}">Add genre</a>   
+    <a href="{% url 'dirs:genre-add' %}">Add genre<i class="bi bi-plus-square"></i></a>   
     <br><br><br>
-    <a href="{% url 'dirs:book-view-all' %}">All Books</a>    ||    
-    <a href="{% url 'dirs:author-view-all' %}">All Authors</a>    ||    
-    <a href="{% url 'dirs:publishing-view-all' %}">All Publishings houses</a>    ||
-    <a href="{% url 'dirs:series-view-all' %}">All Series</a>    ||
-    <a href="{% url 'dirs:genres-view-all' %}">All Genres</a>
+
 {% endblock body %}
