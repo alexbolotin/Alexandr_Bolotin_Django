@@ -6,18 +6,26 @@
     
 {% block body %}   
 
-    <ul>
-        {% for obj in object_list %}
-        <li>
-            <a href="{% url 'sales:sales-book-view' obj.pk %}">{{ obj.description }}</a>
-            <a href="{% url 'sales:sales-book-edit' obj.pk %}">(EDIT)    |</a>
-            <a href="{% url 'sales:sales-book-delete' obj.pk %}">|    (DELETE)</a>
-        </li>
-        {% endfor %}
-    </ul>
+    
 
+    <div style="overflow: hidden;">
+        <div style="width: 1000%;">
+            {% for obj in object_list %}
+            <div class="card" style="width: 18rem; height: 15rem; float: left; padding: 5px; margin: 5px;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Sales number: {{ obj.name }}</h5>
+                    <p class="card-text">Sales description: {{ obj.description }}</p>  <br>
+                    <a href="{% url 'sales:sales-book-view' obj.pk %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'sales:sales-book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+                    <a href="{% url 'sales:sales-book-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br><br>
     <a href="{% url 'sales:sales-book-add' %}">Add book sales</a>
-
 
 {% endblock body %}
 
