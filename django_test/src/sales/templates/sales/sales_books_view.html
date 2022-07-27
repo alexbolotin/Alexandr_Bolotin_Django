@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales view{% endblock title %}
+
+{% block header %}Sales books view{% endblock header %}   
+    
+{% block body %}   
+
+    <ul>
+        {% for obj in object_list %}
+        <li>
+            <a href="{% url 'sales:sales-book-view' obj.pk %}">{{ obj.description }}</a>
+            <a href="{% url 'sales:sales-book-edit' obj.pk %}">(EDIT)    |</a>
+            <a href="{% url 'sales:sales-book-delete' obj.pk %}">|    (DELETE)</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'sales:sales-book-add' %}">Add book sales</a>
+
+
+{% endblock body %}
+
+

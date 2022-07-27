@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', hello_world.views.hello_view),
 
-    path("dirs/", include('directory.urls', namespace='dirs'))
-
+    path("dirs/", include('directory.urls', namespace='dirs')),
+    path("sales/", include('sales.urls', namespace='sales')),
+    
 ]

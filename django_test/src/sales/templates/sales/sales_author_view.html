@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales view{% endblock title %}
+
+{% block header %}Sales view{% endblock header %}   
+    
+{% block body %}  
+
+    <b>Description:</b> {{ object.description }}<br><br><br>
+    <b>Authors:</b> {{ authors }}<br><br><br>
+
+    <a href="{% url 'sales:sales-authors-view' %}">All Authors sales</a>
+
+{% endblock body %}

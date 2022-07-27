@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales book add{% endblock title %}
+
+{% block header %}Sales book add{% endblock header %}   
+    
+{% block body %}   
+    <ul>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    </ul>
+
+    {% comment %} <a href="{% url 'sales:sales-book-add' %}">Add sales book</a>  {% endcomment %}
+
+{% endblock body %}
