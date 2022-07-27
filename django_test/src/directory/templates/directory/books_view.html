@@ -7,22 +7,26 @@
 {% block body %}
     Date {{ date }}
     <br><br>
-    <table border="1">
-        <tr>
-            <td>Book name</td>    
-            <td>Book action</td> 
-            <td>Book action</td>      
-        </tr>
-        {% for book in object_list %}
-        <tr>
-            <td><a href="{% url 'dirs:book-view' book.pk %}">{{ book.name }}</a></td>    
-            <td><a href="{% url 'dirs:book-edit' book.pk %}">(EDIT)</a></td> 
-            <td><a href="{% url 'dirs:book-delete' book.pk %}">(DELETE)</a></td>      
-        </tr>
-        {% endfor %}
+    <table class="table table-striped table-hover table-bordered border-primary">
+        <thead>
+            <tr>
+                <th scope="col">Book name</th>    
+                <th scope="col">Book action</th> 
+                <th scope="col">Book action</th>   
+            </tr>   
+        </thead>
+        <tbody>
+            {% for book in object_list %}
+            <tr>
+                <td><a href="{% url 'dirs:book-view' book.pk %}">{{ book.name }}</a></td>    
+                <td><a href="{% url 'dirs:book-edit' book.pk %}"><i class="bi bi-pencil"></i></a></td> 
+                <td><a href="{% url 'dirs:book-delete' book.pk %}"><i class="bi bi-trash"></i></a></td>      
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <br>
-    <a href="{% url 'dirs:book-add' %}">Add Book</a>  
+    <a href="{% url 'dirs:book-add' %}">Add Book <i class="bi bi-plus-square"></i></a>  
 <br><br><br>
     <a href="{% url 'dirs:book-view-all' %}">All Books</a>    ||    
     <a href="{% url 'dirs:author-view-all' %}">All Authors</a>    ||    

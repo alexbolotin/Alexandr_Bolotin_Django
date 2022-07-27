@@ -4,7 +4,7 @@ from . import views
 app_name = 'dirs'
 
 urlpatterns = [ 
-    path('', views.Homepage.as_view()),
+    path('', views.Homepage.as_view(), name = "home-page"),
 
     path('books_view/', views.BooksList.as_view(), name = "book-view-all"),
     path('book_view/<int:pk>/', views.BookView.as_view(), name = "book-view"),

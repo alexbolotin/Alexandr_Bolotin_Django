@@ -1,5 +1,6 @@
-<{% extends 'base.html' %}
-
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
 {% block title %}Books add{% endblock title %}
 
 {% block header %}Books add{% endblock header %}
@@ -8,8 +9,8 @@
     <ul>
         <form action="" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit">
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-primary">
         </form>
     </ul>
 

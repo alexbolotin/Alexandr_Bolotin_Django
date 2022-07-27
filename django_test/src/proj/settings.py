@@ -39,7 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hello_world',
     'directory',
+    "crispy_forms",
+    "crispy_bootstrap5",
+
 ]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,3 +134,6 @@ MEDIA_ROOT = '/home/Bolotin/Alexandr_Bolotin_Django/django_test/media'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
