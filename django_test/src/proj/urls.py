@@ -21,7 +21,7 @@ from directory import views as dir
 
 urlpatterns = [ 
     path('', dir.Homepage.as_view(), name = "home-page"),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name = "admin"),
     path('hello/', hello_world.views.hello_view),
 
     path("dirs/", include('directory.urls', namespace='dirs')),
