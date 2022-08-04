@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book {{ object.name }}{% endblock title %}
+
+{% block header %}Book {{ object.name }} information{% endblock header %}
+
+{% block body %}
+    <b>Author:</b> {{ author }} <br>
+    <b>Publishing:</b> {{ object.publishing.name }}<br>
+    <b>Description:</b> {{ object.description }}<br>
+    <b>Series:</b> {{ object.series }}<br>
+    <b>Genre:</b> {{ genre }}<br><br>
+    
+    {% if object.picture %}
+    <img src="{{ object.picture.url }}" alt="..." width=150px height=200px>
+    {% else %}
+    <img src="{% static 'images.jfif' %}" alt="..."width=150px height=200px>
+    {% endif %}
+    
+    
+    <br><br><br>
+
+    <a href="{% url 'books:book-view-all' %}"><button type="button" class="btn btn-primary">All Books</button></a>
+    
+    <br><br><br>
+
+    {% for group in request.user.groups.all %}
+    {% if group.name == 'Admin' or group.name == 'Super_managers' %}
+        <a href="{% url 'books:book-edit' object.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+        <a href="{% url 'books:book-delete' object.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
+    {% elif group.name == 'Managers'%}
+        <a href="{% url 'books:book-edit' object.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+    {% elif group.name == 'Users'%}
+    <button type="button" class="btn btn-primary"><a href="#"></a><i class="bi bi-cart4"></i></i></a></button>
+    {% endif %}
+    {% endfor %}
+
+{% endblock body %}

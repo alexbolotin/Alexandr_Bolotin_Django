@@ -42,7 +42,7 @@ class SalesBookAdd(generic.CreateView):
     form_class = forms.AddBookForm
     
     def get_success_url(self):
-        return reverse_lazy("sales:sales-book-view", kwargs = {'pk' : self.object.pk})
+        return reverse_lazy("sales:sales-books-view", kwargs = {'pk' : self.object.pk})
 
 class SalesBookEdit(generic.UpdateView):
     template_name = "sales/sales_book_edit.html"

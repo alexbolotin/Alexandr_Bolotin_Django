@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Sales view{% endblock title %}
 
@@ -9,11 +10,15 @@
     <div style="overflow: hidden;">
         <div style="width: 1000%;">
             {% for obj in object_list %}
-            <div class="card" style="width: 18rem; height: 15rem; float: left; padding: 5px; margin: 5px;">
-                <img src="..." class="card-img-top" alt="...">
+            <div class="card" style="width: 20rem; height: auto; float: left; padding: 5px; margin: 5px;">
+                {% if obj.picture %}
+                <img src="{{ obj.picture.url }}" class="card-img-top" alt="..." width=308px height=200px>
+                {% else %}
+                <img src="{% static 'sale_3.jfif' %}" class="card-img-top" alt="..."width=308px height=200px>
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">Sales number: {{ obj.pk }}</h5>
-                    <p class="card-text">Sales description: {{ obj.description }}</p>  <br>
+                    <p class="card-text">Sales name: {{ obj.name }}</p>  <br>
                     <a href="{% url 'sales:sales-author-view' obj.pk %}" class="btn btn-primary">View</a>
                     <a href="{% url 'sales:sales-author-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
                     <a href="{% url 'sales:sales-author-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
@@ -24,6 +29,6 @@
     </div>
     <br><br>
     
-    <a href="{% url 'sales:sales-author-add' %}">Add sales authors</a> 
+    <a href="{% url 'sales:sales-author-add' %}"><button type="button" class="btn btn-primary">Add sales authors</button></a>
 
 {% endblock body %}

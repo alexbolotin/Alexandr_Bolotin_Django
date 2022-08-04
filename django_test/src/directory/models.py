@@ -15,42 +15,7 @@ class Genre(models.Model):
 
     def __str__(self) -> str:
         return str(self.id) + '. ' + self.name
-    
-class Book(models.Model):
-    genre = models.ManyToManyField(
-        'directory.Genre',
-        verbose_name='Genre',
-        related_name='genres'
-    )
-    publishing = models.ForeignKey(
-        'directory.Publishing_house',
-        on_delete=models.PROTECT,
-        verbose_name='Publishing',
-        related_name='publishing'
-    )
-    author = models.ManyToManyField(
-        'directory.Author',
-        verbose_name='Author',
-        related_name='author'
-    )
-    name = models.CharField(
-        verbose_name='Book name',
-        max_length=30,
-    )
 
-    series = models.CharField(
-        verbose_name='Book series',
-        max_length=30,
-    )
-
-    description= models.TextField(
-        verbose_name='Book description',
-        blank =  True,
-        null = True
-    )
-
-    def __str__(self) -> str:
-        return str(self.pk) + '. ' + self.name
 
 class Series(models.Model):
     name = models.CharField(

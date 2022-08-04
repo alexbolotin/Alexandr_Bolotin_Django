@@ -1,5 +1,7 @@
-{% extends 'base.html' %}
 
+
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Sales view{% endblock title %}
 
 {% block header %}Sales books view{% endblock header %}   
@@ -11,11 +13,17 @@
     <div style="overflow: hidden;">
         <div style="width: 1000%;">
             {% for obj in object_list %}
-            <div class="card" style="width: 18rem; height: 15rem; float: left; padding: 5px; margin: 5px;">
-                <img src="..." class="card-img-top" alt="...">
+            <div class="card" style="width: 20rem; height: auto; float: left; padding: 5px; margin: 5px;">
+                {% if obj.picture %}
+                <img src="{{ obj.picture.url }}" class="card-img-top" alt="..." width=308px height=200px>
+                {% else %}
+                <img src="{% static 'cbcf5ad64e9c9752c07e4528e08f187c.png' %}" class="card-img-top" alt="..."width=308px height=200px>
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">Sales number: {{ obj.pk }}</h5>
-                    <p class="card-text">Sales description: {{ obj.description }}</p>  <br>
+                    <p class="card-text">Sales name: {{ obj.name }}</p>  <br>
+
+    
                     <a href="{% url 'sales:sales-book-view' obj.pk %}" class="btn btn-primary">View</a>
                     <a href="{% url 'sales:sales-book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
                     <a href="{% url 'sales:sales-book-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
@@ -25,7 +33,8 @@
         </div>
     </div>
     <br><br>
-    <a href="{% url 'sales:sales-book-add' %}">Add book sales</a>
+    <a href="{% url 'sales:sales-book-add' %}"><button type="button" class="btn btn-primary">Add book sales</button></a>
+
 
 {% endblock body %}
 

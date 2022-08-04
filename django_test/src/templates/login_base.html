@@ -1,0 +1,40 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Signin{% endblock title %}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'bs/css/bootstrap.min.css' %}" rel="stylesheet" >
+        <!-- Favicons -->
+        <link rel="icon" href="{% static 'icons/stock-logo_1.jpg' %}">
+        
+        <meta name="theme-color" content="#7952b3">
+
+        <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+            }
+        }
+        </style>
+
+        
+        <!-- Custom styles for this template -->
+        <link href="{% static 'login/signin.css' %}" rel="stylesheet">
+    </head>
+    {% block body %}
+    
+    {% endblock body %}
+  
+</html>

@@ -7,6 +7,7 @@
 {% block body %}
     
     <b>Description:</b> {{ object.description }}<br><br><br>
-    <a href="{% url 'dirs:series-view-all' %}">All series</a>
+
+    <a href="{% url 'dirs:series-view-all' %}"><button type="button" class="btn btn-primary">All series</button></a>
 
 {% endblock body %}

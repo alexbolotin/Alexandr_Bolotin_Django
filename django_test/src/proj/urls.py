@@ -15,16 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import hello_world.views
 from directory import views as dir
-
+from django.conf import settings
+from django.conf.urls.static import static
+from . import local_vars 
 
 urlpatterns = [ 
     path('', dir.Homepage.as_view(), name = "home-page"),
     path('admin/', admin.site.urls, name = "admin"),
-    path('hello/', hello_world.views.hello_view),
 
     path("dirs/", include('directory.urls', namespace='dirs')),
+    path("books/", include('books.urls', namespace='books')),
     path("sales/", include('sales.urls', namespace='sales')),
+    path("auth/", include('auth_user.urls', namespace='auth_user')),
     
-]
+] 
+
+if local_vars.SERVER == 'local':
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

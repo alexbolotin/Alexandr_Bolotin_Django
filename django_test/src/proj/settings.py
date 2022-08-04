@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from . import local_vars 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,10 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = local_vars.DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if local_vars.SERVER == 'local':
+    DEBUG = True
+    ALLOWED_HOSTS = ['127.0.0.1']
 
-ALLOWED_HOSTS = ['bolotin.pythonanywhere.com']
-# ALLOWED_HOSTS = ['127.0.0.1']
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = ['bolotin.pythonanywhere.com']
+    
+    
 
 # Application definition
 
@@ -37,13 +44,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hello_world',
-    'directory',
+]
+
+INSTALLED_APPS += [
+    "directory",
+    "sales",
+    "books",
     "crispy_forms",
     "crispy_bootstrap5",
-    "sales",
-
+    "auth_user",
 ]
+
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -126,11 +137,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+if local_vars.SERVER == 'local':
+    STATIC_URL = 'static/'
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    STATIC_URL = 'static/'
+    STATIC_ROOT = '/home/Bolotin/Alexandr_Bolotin_Django/django_test/static'
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = '/home/Bolotin/Alexandr_Bolotin_Django/django_test/media'
 
-STATIC_URL = 'static/'
-STATIC_ROOT = '/home/Bolotin/Alexandr_Bolotin_Django/django_test/static'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = '/home/Bolotin/Alexandr_Bolotin_Django/django_test/media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

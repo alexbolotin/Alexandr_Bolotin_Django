@@ -1,0 +1,40 @@
+
+{% extends 'login_base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+
+{% block header %}Login{% endblock header %} 
+  
+{% block body %}   
+
+<body class="text-center">
+    
+    <main class="form-signin">
+        <form method="post">
+            {% csrf_token %}
+            <img class="mb-4" src="{% static 'icons/stock-logo_1.jpg' %}" alt="" width="108" height="157">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        
+            <div class="form-floating">
+            <input type="text" name="user" class="form-control" id="floatingInput" placeholder="name@example.com" >
+            <label for="floatingInput">Login/Email address</label>
+            </div>
+            <div class="form-floating">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" >
+            <label for="floatingPassword">Password</label>
+            </div>
+        
+            <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            </div>
+            <a href="{% url 'dirs:home-page' %}"><button type="submit" value="submit" class="w-100 btn btn-lg btn-primary" > Sign in </button></a>
+        </form> 
+    </main>
+
+</body>
+
+{% endblock body %}  
+
+

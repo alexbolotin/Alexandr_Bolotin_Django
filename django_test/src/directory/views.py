@@ -1,8 +1,10 @@
+from requests import request
 from directory import models
 from . import forms
 from django.views import generic
-from datetime import datetime
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
     
@@ -11,63 +13,8 @@ class Homepage(generic.TemplateView):
     
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['date'] = datetime.now().date
         return context  
-
-#  Books
-class BooksList(generic.ListView):
-    template_name = "directory/books_view.html"
-    model = models.Book
- 
-    def get_context_data(self,*args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['date'] = datetime.now().date
-        return context
-
-class BookView(generic.DetailView):
-    template_name = "directory/book_view.html"
-    model = models.Book
- 
-    def get_context_data(self,*args, **kwargs):
-
-        def list_to_str(value):
-            text = ''
-            if len(value) == 1:
-                text = value[0].name
-            else:
-                for author in value:
-                    text += str(author.name) + '; '
-            return text
-
-        context = super().get_context_data(*args, **kwargs)
-        context['date'] = datetime.now().date
-
-        book = models.Book.objects.get(pk = self.object.pk)
-        context['author'] = list_to_str(book.author.all())
-        context['genre'] = list_to_str(book.genre.all())
         
-        return context
-
-class BookAdd(generic.CreateView):
-    template_name = "directory/book_add.html"
-    model = models.Book
-    form_class = forms.AddBookForm
-    
-    def get_success_url(self):
-        return reverse_lazy("dirs:book-view", kwargs = {'pk' : self.object.pk})
-
-class BookEdit(generic.UpdateView):
-    template_name = "directory/book_edit.html"
-    model = models.Book
-    form_class = forms.AddBookForm
-
-    def get_success_url(self):
-        return reverse_lazy("dirs:book-view", kwargs = {'pk' : self.object.pk})
-
-class BookDelete(generic.DeleteView):
-    template_name = "directory/book_delete.html"
-    model = models.Book
-    success_url = "/dirs/books_view/"
 
 # Authors
 class AuthorView(generic.DetailView):
@@ -78,10 +25,12 @@ class AuthorsList(generic.ListView):
     template_name = "directory/authors_view.html"
     model = models.Author
 
-class AuthorEdit(generic.UpdateView):
+class AuthorEdit(LoginRequiredMixin, generic.UpdateView):
     template_name = "directory/author_edit.html"
     model = models.Author
     form_class = forms.AddAuthorForm
+    login_url = '/auth/login'
+    # redirect_field_name = 'redirect_to'
 
     def get_success_url(self):
         return reverse_lazy("dirs:author-view", kwargs = {'pk' : self.object.pk})

@@ -7,5 +7,6 @@
 {% block body %}
     <b>Description:</b> {{ object.description }}
     <br><br><br>
-    <a href="{% url 'dirs:publishing-view-all' %}">All Publishings Houses</a>
+
+    <a href="{% url 'dirs:publishing-view-all' %}"><button type="button" class="btn btn-primary">All Publishings Houses</button></a>
 {% endblock body %}

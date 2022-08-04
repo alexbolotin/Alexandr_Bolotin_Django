@@ -1,18 +1,19 @@
+{% load static %}
 <header class="p-3 text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="{% url 'dirs:home-page' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-          <img src="https://st2.depositphotos.com/3096625/7016/v/600/depositphotos_70164727-stock-illustration-book-shop-logo-on-black.jpg" width="100" height="111">
+          <img src="{% static 'icons/stock-logo.jpg' %}" width="100" height="111">
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="{% url 'dirs:home-page' %}" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="{% url 'dirs:book-view-all' %}" class="nav-link px-2 text-white">All Books</a></li>
-          <li><a href="{% url 'dirs:publishing-view-all' %}" class="nav-link px-2 text-white">All Publishings house</a></li>
-          <li><a href="{% url 'dirs:genres-view-all' %}" class="nav-link px-2 text-white">All genres</a></li>
-          <li><a href="{% url 'dirs:author-view-all' %}" class="nav-link px-2 text-white">All Authors</a></li>
-          <li><a href="{% url 'sales:sales-books-view' %}" class="nav-link px-2 text-white">All Books Sales</a></li>
-          <li><a href="{% url 'sales:sales-authors-view' %}" class="nav-link px-2 text-white">All Authors Sales</a></li>
+          <li><a href="{% url 'books:book-view-all' %}" class="nav-link px-2 text-white">Books</a></li>
+          <li><a href="{% url 'dirs:publishing-view-all' %}" class="nav-link px-2 text-white">Publishings house</a></li>
+          <li><a href="{% url 'dirs:genres-view-all' %}" class="nav-link px-2 text-white">Genres</a></li>
+          <li><a href="{% url 'dirs:author-view-all' %}" class="nav-link px-2 text-white">Authors</a></li>
+          <li><a href="{% url 'dirs:series-view-all' %}" class="nav-link px-2 text-white">Series</a></li>
+          <li><a href="{% url 'sales:sales-books-view' %}" class="nav-link px-2 text-white">Books Sales</a></li>
+          <li><a href="{% url 'sales:sales-authors-view' %}" class="nav-link px-2 text-white">Authors Sales</a></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -21,8 +22,12 @@
 
         <div class="text-end">
           <button type="button" class="btn btn-outline-light me-2"><a href="#"></a><i class="bi bi-cart-check"></i></a></button>
-          <button type="button" class="btn btn-outline-light me-2"><a href="admin/">Login</a></button>
-          <button type="button" class="btn btn-warning"><a href="admin/">Sign-up</a></button>
+          {% if user.is_authenticated %}       
+          <button type="button" class="btn btn-light"><a href="/"> {{ user }} </a></button>
+          <button type="button" class="btn btn-light"><a href="{% url 'auth:logout' %}">Logout</a></button>
+          {% else %}
+          <button type="button" class="btn btn btn-light"><a href="{% url 'auth:login' %}"> Login </a></button>
+          {% endif %}
         </div>
       </div>
     </div>

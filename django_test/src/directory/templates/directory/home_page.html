@@ -6,9 +6,12 @@
 
 {% block body %}
 
-    User : {{ user }} <br>
-    Data: {{date}}
+    <h1>User : {{ user }} </h1><br>
     <br><br><br>
-    <h1> Make Make your choice from the menu </h1>
+
+    {%if user.is_authenticated %}
+    <h1> Make your choice from the menu </h1>
+    {% endif %}
+
 
 {% endblock body %}
