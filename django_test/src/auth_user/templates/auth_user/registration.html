@@ -1,0 +1,83 @@
+{% extends 'login_base.html' %}
+{% load static %}
+{% block title %}Registration{% endblock title %}
+
+{% block header %}Registration{% endblock header %} 
+  
+{% block body %}   
+
+{% comment %} <form method="POST" action="">
+    {% csrf_token %}
+    <h3>REGISTER</h3>
+    <h5>{{form.username.label}}</h5>
+    {{form.username}}
+    <h5>{{form.email.label}}</h5>
+    {{form.email}}
+    <h5>{{form.password1.label}}</h5>
+    {{form.password1}}
+    <h5>{{form.password2.label}}</h5>
+    {{form.password2}}
+    <h5>{{form.password2.label}}</h5>
+    {{form.password2}}
+    <input type="submit" name="Create User">
+</form> {% endcomment %}
+
+
+<body class="text-center">
+   
+    <main class="form-signin">
+        <form method="post">
+            {% csrf_token %}
+            <a class="mb-4" href="{% url 'dirs:home-page' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img src="{% static 'icons/stock-logo.jpg' %}" width="108" height="157">
+            </a>
+            <h1 class="h3 mb-3 fw-normal">
+                
+            </h1>
+            <div class="form-floating">
+                <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Username" >
+                <label for="floatingInput">Username</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" name="email" class="form-control" id="floatingPassword" placeholder="name@example.com" >
+                <label for="floatingPassword">Email</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" name="first_name" class="form-control" id="floatingInput" placeholder="Alexandr" >
+                <label for="floatingInput">First Name</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" name="last_name" class="form-control" id="floatingInput" placeholder="Bobrikov" >
+                <label for="floatingInput">Last Name</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" name="password1" class="form-control" id="floatingPassword" placeholder="Password" >
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" name="password2" class="form-control" id="floatingPassword" placeholder="Password" >
+                <label for="floatingPassword">Password Confirmation</label>
+            </div>
+        
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            {% if form.errors %}
+                    <p>Something went wrong, please check the form.</p>
+            {% endif %}
+                <br><br>
+                <a href="{% url 'auth:login' %}">
+                    <button type="submit" name="Create User" value="register" class="w-100 btn btn-lg btn-primary" > 
+                        Register
+                    </button>
+                </a> 
+        </form> 
+        
+    </main>
+</body>
+
+{% endblock body %}  
+
+

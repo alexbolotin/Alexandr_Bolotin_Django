@@ -3,6 +3,8 @@ from books import models
 from . import forms
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 # Create your views here.
 
 #  Books
@@ -38,23 +40,27 @@ class BookView(generic.DetailView):
         
         return context
 
-class BookAdd(generic.CreateView):
+class BookAdd(PermissionRequiredMixin,generic.CreateView):
     template_name = "books/book_add.html"
     model = models.Book
     form_class = forms.AddBookForm
+    permission_required = 'books.add_book'
+
     
     def get_success_url(self):
         return reverse_lazy("books:book-view", kwargs = {'pk' : self.object.pk})
 
-class BookEdit(generic.UpdateView):
+class BookEdit(PermissionRequiredMixin,generic.UpdateView):
     template_name = "books/book_edit.html"
     model = models.Book
     form_class = forms.AddBookForm
+    permission_required = 'books.change_book'
 
     def get_success_url(self):
         return reverse_lazy("books:book-view", kwargs = {'pk' : self.object.pk})
 
-class BookDelete(generic.DeleteView):
+class BookDelete(PermissionRequiredMixin,generic.DeleteView):
     template_name = "books/book_delete.html"
     model = models.Book
     success_url = "/books/books_view/"
+    permission_required = 'books.delete_book'

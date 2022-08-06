@@ -25,16 +25,28 @@
 
     
                     <a href="{% url 'sales:sales-book-view' obj.pk %}" class="btn btn-primary">View</a>
-                    <a href="{% url 'sales:sales-book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
-                    <a href="{% url 'sales:sales-book-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
+
+                    {% for group in request.user.groups.all %}
+                    {% if group.name == 'Admin' or group.name == 'Super_managers' %}
+                        <a href="{% url 'sales:sales-book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+                        <a href="{% url 'sales:sales-book-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
+                    {% elif group.name == 'Managers'%} 
+                        <a href="{% url 'sales:sales-book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+                    {% elif group.name == 'Users'%}
+                        <button type="button" class="btn btn-primary"><a href="#"></a><i class="bi bi-cart4"></i></i></a></button>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
     <br><br>
+    {% for group in request.user.groups.all %}
+    {% if group.name == 'Admin' or group.name == 'Super_managers' or group.name == 'Managers' %}
     <a href="{% url 'sales:sales-book-add' %}"><button type="button" class="btn btn-primary">Add book sales</button></a>
-
+    {% endif %}
+    {% endfor %}
 
 {% endblock body %}
 

@@ -6,7 +6,9 @@
 
 {% block body %}
 
-    <h1>User : {{ user }} </h1><br>
+    <h3>User : {{ user }} </h3><br>
+    <h3>User groups : {{ user.groups.all }} </h3><br>
+    <h3>User permissons: {{ perms.foo }} </h3><br>
     <br><br><br>
 
     {%if user.is_authenticated %}

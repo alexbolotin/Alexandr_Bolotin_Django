@@ -20,15 +20,25 @@
                     <h5 class="card-title">Sales number: {{ obj.pk }}</h5>
                     <p class="card-text">Sales name: {{ obj.name }}</p>  <br>
                     <a href="{% url 'sales:sales-author-view' obj.pk %}" class="btn btn-primary">View</a>
+                    {% for group in request.user.groups.all %}
+                    {% if group.name == 'Admin' or group.name == 'Super_managers' %}
                     <a href="{% url 'sales:sales-author-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
                     <a href="{% url 'sales:sales-author-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
+                    {% elif group.name == 'Managers'%} 
+                    <a href="{% url 'sales:sales-author-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+                    {% elif group.name == 'Users'%}
+                    <button type="button" class="btn btn-primary"><a href="#"></a><i class="bi bi-cart4"></i></i></a></button>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
     <br><br>
-    
+    {% for group in request.user.groups.all %}
+    {% if group.name == 'Admin' or group.name == 'Super_managers' or group.name == 'Managers' %}
     <a href="{% url 'sales:sales-author-add' %}"><button type="button" class="btn btn-primary">Add sales authors</button></a>
-
+    {% endif %}
+    {% endfor %}
 {% endblock body %}

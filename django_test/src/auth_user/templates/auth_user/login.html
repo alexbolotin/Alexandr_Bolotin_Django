@@ -1,4 +1,3 @@
-
 {% extends 'login_base.html' %}
 {% load static %}
 {% block title %}Login{% endblock title %}
@@ -8,28 +7,58 @@
 {% block body %}   
 
 <body class="text-center">
-    
+   
     <main class="form-signin">
         <form method="post">
             {% csrf_token %}
-            <img class="mb-4" src="{% static 'icons/stock-logo_1.jpg' %}" alt="" width="108" height="157">
-            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-        
+            <a class="mb-4" href="{% url 'dirs:home-page' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img src="{% static 'icons/stock-logo.jpg' %}" width="108" height="157">
+            </a>
+            <h1 class="h3 mb-3 fw-normal">
+                {% if form.errors %}
+                    <p>Your username or password didn't match. Please try again.</p>
+                {% elif next %}
+                    {% if user.is_authenticated %}
+                        <p>Your account doesn't have access to this page. To proceed,
+                        please login with an account that has access.</p>
+                    {% else %}
+                        <p>Only registered users can see and use our promotions.</p>
+                    {% endif %}          
+                {% else %}
+                    <p>Please sign in</p>
+                {% endif %}
+                
+            </h1>
             <div class="form-floating">
-            <input type="text" name="user" class="form-control" id="floatingInput" placeholder="name@example.com" >
-            <label for="floatingInput">Login/Email address</label>
+                <input type="text" name="username" class="form-control" id="floatingInput" placeholder="name@example.com" >
+                <label for="floatingInput">Login/Email address</label>
             </div>
             <div class="form-floating">
-            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" >
-            <label for="floatingPassword">Password</label>
+                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" >
+                <label for="floatingPassword">Password</label>
             </div>
         
             <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
             </div>
-            <a href="{% url 'dirs:home-page' %}"><button type="submit" value="submit" class="w-100 btn btn-lg btn-primary" > Sign in </button></a>
+            
+                <button type="submit" value="submit" class="w-100 btn btn-lg btn-primary" > 
+                    Sign in 
+                </button>
+                <br><br>
+                <a href="{% url 'auth:registration' %}">
+                    <button type="button" value="register" class="w-100 btn btn-lg btn-primary" > 
+                        Registration 
+                </button></a>
+
+            {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% else %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
         </form> 
     </main>
 

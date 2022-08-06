@@ -9,13 +9,22 @@
         {% for genre in object_list %}
         <li>
             <a href="{% url 'dirs:genre-view' genre.pk %}">{{ genre.name }}</a>
-            <a href="{% url 'dirs:genre-edit' genre.pk %}"><i class="bi bi-pencil"></i></a>
-            <a href="{% url 'dirs:genre-delete' genre.pk %}"><i class="bi bi-trash"></i></a>
+            {% for group in request.user.groups.all %}
+                {% if group.name == 'Admin' or group.name == 'Super_managers' %}
+                    <a href="{% url 'dirs:genre-edit' genre.pk %}"><i class="bi bi-pencil"></i></a>
+                    <a href="{% url 'dirs:genre-delete' genre.pk %}"><i class="bi bi-trash"></i></a>
+                {% elif group.name == 'Managers'%}
+                    <a href="{% url 'dirs:genre-edit' genre.pk %}"><i class="bi bi-pencil"></i></a>
+                {% endif %}
+            {% endfor %}
         </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'dirs:genre-add' %}"><button type="button" class="btn btn-primary">Add genre</button></a>
-
+    {% for group in request.user.groups.all %}
+        {% if group.name == 'Admin' or group.name == 'Super_managers' or group.name == 'Managers' %}
+            <a href="{% url 'dirs:genre-add' %}"><button type="button" class="btn btn-primary">Add genre</button></a>
+        {% endif %}
+    {% endfor %}
     <br><br><br>
 
 {% endblock body %}

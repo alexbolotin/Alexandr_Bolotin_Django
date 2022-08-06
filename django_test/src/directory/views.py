@@ -1,9 +1,8 @@
-from requests import request
 from directory import models
 from . import forms
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 # Create your views here.
@@ -25,26 +24,28 @@ class AuthorsList(generic.ListView):
     template_name = "directory/authors_view.html"
     model = models.Author
 
-class AuthorEdit(LoginRequiredMixin, generic.UpdateView):
+class AuthorEdit(PermissionRequiredMixin, generic.UpdateView):
     template_name = "directory/author_edit.html"
     model = models.Author
     form_class = forms.AddAuthorForm
     login_url = '/auth/login'
-    # redirect_field_name = 'redirect_to'
+    permission_required = 'directory.change_author'
 
     def get_success_url(self):
         return reverse_lazy("dirs:author-view", kwargs = {'pk' : self.object.pk})
 
-class AuthorDelete(generic.DeleteView):
+class AuthorDelete(PermissionRequiredMixin, generic.DeleteView):
     template_name = "directory/author_delete.html"
     model = models.Author
     success_url = "/dirs/authors_view/"
+    permission_required = 'directory.delete_author'
 
-class AuthorAdd(generic.CreateView):
+class AuthorAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/author_add.html"
     model = models.Author
     form_class = forms.AddAuthorForm
-    
+    permission_required = 'directory.add_author'
+
     def get_success_url(self):
         return reverse_lazy("dirs:author-view", kwargs = {'pk' : self.object.pk})
 
@@ -57,26 +58,29 @@ class PublishingView(generic.DetailView):
     template_name = "directory/publishing_view.html"
     model = models.Publishing_house
 
-class PublishingAdd(generic.CreateView):
+class PublishingAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/publishing_add.html"
     model = models.Publishing_house
     form_class = forms.AddPublishingForm
+    permission_required = 'directory.add_publishing_house'
 
     def get_success_url(self):
         return reverse_lazy("dirs:publishing-view", kwargs = {'pk' : self.object.pk})
 
-class PublishingEdit(generic.UpdateView):
+class PublishingEdit(PermissionRequiredMixin, generic.UpdateView):
     template_name = "directory/publishing_edit.html"
     model = models.Publishing_house
     form_class = forms.AddPublishingForm
+    permission_required = 'directory.change_publishing_house'
 
     def get_success_url(self):
         return reverse_lazy("dirs:publishing-view", kwargs = {'pk' : self.object.pk})
 
-class PublishingDelete(generic.DeleteView):
+class PublishingDelete(PermissionRequiredMixin, generic.DeleteView):
     template_name = "directory/publishing_delete.html"
     model = models.Publishing_house
     success_url = "/dirs/publishings_view/"
+    permission_required = 'directory.delete_publishing_house'
 
 # Series
 class SeriesList(generic.ListView):
@@ -87,26 +91,29 @@ class SeriesView(generic.DetailView):
     template_name = "directory/series_view.html"
     model = models.Series
 
-class SeriesAdd(generic.CreateView):
+class SeriesAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/series_add.html"
     model = models.Series
     form_class = forms.AddSeriesForm
+    permission_required = 'directory.add_series'
 
     def get_success_url(self):
         return reverse_lazy("dirs:series-view", kwargs = {'pk' : self.object.pk})
 
-class SeriesEdit(generic.UpdateView):
+class SeriesEdit(PermissionRequiredMixin, generic.UpdateView):
     template_name = "directory/series_edit.html"
     model = models.Series
     form_class = forms.AddSeriesForm
+    permission_required = 'directory.change_series'
 
     def get_success_url(self):
         return reverse_lazy("dirs:series-view", kwargs = {'pk' : self.object.pk})
 
-class SeriesDelete(generic.DeleteView):
+class SeriesDelete(PermissionRequiredMixin, generic.DeleteView):
     template_name = "directory/series_delete.html"
     model = models.Series
     success_url = "/dirs/serieses_view/"
+    permission_required = 'directory.delete_series'
 
 # 
 # Genres
@@ -118,23 +125,26 @@ class GenreView(generic.DetailView):
     template_name = "directory/genre_view.html"
     model = models.Genre
 
-class GenreAdd(generic.CreateView):
+class GenreAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/genre_add.html"
     model = models.Genre
     form_class = forms.AddGenreForm
+    permission_required = 'directory.add_genre'
 
     def get_success_url(self):
         return reverse_lazy("dirs:genre-view", kwargs = {'pk' : self.object.pk})
 
-class GenreEdit(generic.UpdateView):
+class GenreEdit(PermissionRequiredMixin, generic.UpdateView):
     template_name = "directory/genre_edit.html"
     model = models.Genre
     form_class = forms.AddGenreForm
+    permission_required = 'directory.change_genre'
 
     def get_success_url(self):
         return reverse_lazy("dirs:genre-view", kwargs = {'pk' : self.object.pk})
 
-class GenreDelete(generic.DeleteView):
+class GenreDelete(PermissionRequiredMixin, generic.DeleteView):
     template_name = "directory/genre_delete.html"
     model = models.Genre
     success_url = "/dirs/genres_view/"
+    permission_required = 'directory.delete_genre'
