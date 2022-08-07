@@ -7,6 +7,16 @@
 {% block body %}   
    
     <b>Description:</b> {{ object.description }}<br><br><br>
+    {% if books %}
+        <b>Books this authors :</b><br><br>
+        {% for book in books %}
+            <a href="{% url 'books:book-view' book.pk %}">{{ book.name }}</a><br>
+        {% endfor %}
+    {% else%}
+    <h4>There is no such information yet</h4>
+    {% endif %}
+    
+    <br><br><br>
     <a href="{% url 'dirs:author-view-all' %}"><button type="button" class="btn btn-primary">All Authors</button></a>
     
 {% endblock body %}

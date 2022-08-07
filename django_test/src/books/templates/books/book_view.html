@@ -6,18 +6,38 @@
 {% block header %}Book {{ object.name }} information{% endblock header %}
 
 {% block body %}
-    <b>Author:</b> {{ author }} <br>
-    <b>Publishing:</b> {{ object.publishing.name }}<br>
-    <b>Description:</b> {{ object.description }}<br>
-    <b>Series:</b> {{ object.series }}<br>
-    <b>Genre:</b> {{ genre }}<br><br>
-    
+
+    {% if authors %}
+        <b>Author:</b> <br>
+        {% for author in authors %}
+            <a href="{% url 'dirs:author-view' author.pk %}">{{ author.name }}</a><br>
+        {% endfor%}
+    {% else%}
+        <h4>There is no such information yet</h4>
+    {% endif %}
+
+    <b>Publishing:</b> <br>
+    <a href="{% url 'dirs:publishing-view' publishings.pk %}">{{ publishings.name }}</a><br>
+
+    <b>Series:</b><br>
+    <a href="{% url 'dirs:series-view' series.pk %}">{{ series.name }}</a><br>
+
+    {% if genres %}
+        <b>Genre:</b> <br>
+        {% for genre in genres %}
+        <a href="{% url 'dirs:genre-view' genre.pk %}">{{ genre.name }}</a><br>
+        {% endfor%}
+    {% else%}
+        <h4>There is no such information yet</h4>
+    {% endif %}
+    <br>
+    <b>Description:</b> {{ object.description }}<br><br>
+
     {% if object.picture %}
     <img src="{{ object.picture.url }}" alt="..." width=150px height=200px>
     {% else %}
     <img src="{% static 'images.jfif' %}" alt="..."width=150px height=200px>
     {% endif %}
-    
     
     <br><br><br>
 

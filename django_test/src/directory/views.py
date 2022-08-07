@@ -3,7 +3,7 @@ from . import forms
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import PermissionRequiredMixin
-
+from books import models as book_models
 
 # Create your views here.
     
@@ -20,6 +20,12 @@ class AuthorView(generic.DetailView):
     template_name = "directory/author_view.html"
     model = models.Author
 
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        books = book_models.Book.objects.filter(author=self.object.pk)
+        context['books'] = books      
+        return context
+    
 class AuthorsList(generic.ListView):
     template_name = "directory/authors_view.html"
     model = models.Author
@@ -58,6 +64,12 @@ class PublishingView(generic.DetailView):
     template_name = "directory/publishing_view.html"
     model = models.Publishing_house
 
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        books = book_models.Book.objects.filter(publishing=self.object.pk)
+        context['books'] = books        
+        return context
+
 class PublishingAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/publishing_add.html"
     model = models.Publishing_house
@@ -90,6 +102,12 @@ class SeriesList(generic.ListView):
 class SeriesView(generic.DetailView):
     template_name = "directory/series_view.html"
     model = models.Series
+    
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        books = book_models.Book.objects.filter(series=self.object.name)
+        context['books'] = books      
+        return context
 
 class SeriesAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/series_add.html"
@@ -124,6 +142,13 @@ class GenresList(generic.ListView):
 class GenreView(generic.DetailView):
     template_name = "directory/genre_view.html"
     model = models.Genre
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        books = book_models.Book.objects.filter(genre=self.object.pk)
+        context['books'] = books      
+        return context
+
 
 class GenreAdd(PermissionRequiredMixin, generic.CreateView):
     template_name = "directory/genre_add.html"

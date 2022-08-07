@@ -1,5 +1,6 @@
 from requests import request
 from books import models
+from directory import models as dirs_model
 from . import forms
 from django.views import generic
 from django.urls import reverse_lazy
@@ -23,21 +24,18 @@ class BookView(generic.DetailView):
  
     def get_context_data(self,*args, **kwargs):
 
-        def list_to_str(value):
-            text = ''
-            if len(value) == 1:
-                text = value[0].name
-            else:
-                for author in value:
-                    text += str(author.name) + '; '
-            return text
-
         context = super().get_context_data(*args, **kwargs)
-
-        book = models.Book.objects.get(pk = self.object.pk)
-        context['author'] = list_to_str(book.author.all())
-        context['genre'] = list_to_str(book.genre.all())
-        
+        authors = self.object.author.all()
+        genres = self.object.genre.all()
+        publishings = self.object.publishing
+        series = self.object.series
+        series_m = dirs_model.Series.objects.get(name =self.object.series )
+        print(self.object.series)
+        print(series_m)
+        context['authors'] = authors
+        context['genres'] = genres
+        context['publishings'] = publishings
+        context['series'] = series_m
         return context
 
 class BookAdd(PermissionRequiredMixin,generic.CreateView):
