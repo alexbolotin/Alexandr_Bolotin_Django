@@ -28,10 +28,14 @@ class BookView(generic.DetailView):
         authors = self.object.author.all()
         genres = self.object.genre.all()
         publishings = self.object.publishing
+
         series = self.object.series
-        series_m = dirs_model.Series.objects.get(name =self.object.series )
-        print(self.object.series)
-        print(series_m)
+        print(series)
+        if series:
+            series_m = dirs_model.Series.objects.get(name = series )
+            print(series_m)
+        else:
+            series_m = ""
         context['authors'] = authors
         context['genres'] = genres
         context['publishings'] = publishings

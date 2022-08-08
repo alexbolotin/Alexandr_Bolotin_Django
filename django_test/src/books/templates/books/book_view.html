@@ -13,14 +13,23 @@
             <a href="{% url 'dirs:author-view' author.pk %}">{{ author.name }}</a><br>
         {% endfor%}
     {% else%}
-        <h4>There is no such information yet</h4>
+        <p>There is no such information yet</p>
     {% endif %}
 
-    <b>Publishing:</b> <br>
-    <a href="{% url 'dirs:publishing-view' publishings.pk %}">{{ publishings.name }}</a><br>
+    {% if publishings %}
+        <b>Publishing:</b> <br>
+        <a href="{% url 'dirs:publishing-view' publishings.pk %}">{{ publishings.name }}</a><br>
+    {% else%}
+        <p>There is no such information yet</p>
+    {% endif %}
 
-    <b>Series:</b><br>
-    <a href="{% url 'dirs:series-view' series.pk %}">{{ series.name }}</a><br>
+    {% if series %}
+        <b>Series:</b><br>
+        <a href="{% url 'dirs:series-view' series.pk %}">{{ series.name }}</a><br>
+    {% else%}
+        <b>Series:</b><br>
+        <p>There is no such information yet</p>
+    {% endif %}
 
     {% if genres %}
         <b>Genre:</b> <br>
@@ -28,10 +37,16 @@
         <a href="{% url 'dirs:genre-view' genre.pk %}">{{ genre.name }}</a><br>
         {% endfor%}
     {% else%}
-        <h4>There is no such information yet</h4>
+        <p>There is no such information yet</p>
     {% endif %}
     <br>
-    <b>Description:</b> {{ object.description }}<br><br>
+
+    {% if description %}
+        <b>Description:</b> {{ object.description }}<br><br>
+    {% else%}
+        <b>Description:</b><br>
+        <p>There is no such information yet</p>
+    {% endif %}
 
     {% if object.picture %}
     <img src="{{ object.picture.url }}" alt="..." width=150px height=200px>
