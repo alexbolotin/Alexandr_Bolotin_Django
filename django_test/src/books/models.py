@@ -1,3 +1,4 @@
+from statistics import quantiles
 from django.db import models
 
 # Create your models here.
@@ -42,6 +43,18 @@ class Book(models.Model):
         upload_to = 'uploads/%Y/%m/%d/',
         blank =  True,
         null = True
+    )
+
+    quantity = models.SmallIntegerField(
+        verbose_name= "Quantity",
+    )
+
+    price = models.DecimalField(
+        verbose_name= "Price",
+        decimal_places=2,
+        max_digits=7,
+        null = True,
+        blank=True,
     )
 
     def __str__(self) -> str:

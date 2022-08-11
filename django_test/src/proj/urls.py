@@ -28,6 +28,7 @@ urlpatterns = [
     path("books/", include('books.urls', namespace='books')),
     path("sales/", include('sales.urls', namespace='sales')),
     path("auth/", include('auth_user.urls', namespace='auth_user')),
+    path("orders/", include('orders.urls', namespace='orders')),
     
 ] 
 

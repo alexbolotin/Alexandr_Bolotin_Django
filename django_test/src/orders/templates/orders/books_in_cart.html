@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+
+{% block header %}Cart {{ user }} {% endblock header %}
+
+{% block body %}
+{{ session }}
+
+{% if books %}
+    {% for obj in books %}
+        book name: {{ obj.book.name }} <br>
+        quantity: {{ obj.quantity }} <br>
+        price: {{ obj.price }} <br>
+        ==============<br>
+    {% endfor %}
+<p>Total price: {{total_price}}</p>
+
+{% endif %}
+<br><br>
+<a href="{% url 'books:book-view-all' %}" class="btn btn-primary">View all books</a>
+{% endblock body %}

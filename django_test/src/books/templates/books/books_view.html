@@ -9,30 +9,50 @@
     <div style="overflow: hidden;">
         <div style="width: 1000%;">
             {% for obj in object_list %}
-            <div class="card" style="width: 280px; height: 480px; float: left; padding: 15px; margin: 15px;">
-                {% if obj.picture %}
-                <img src="{{ obj.picture.url }}" class="card-img-top" alt="..." width=308px height=250px>
-                {% else %}
-                <img src="{% static 'images.jfif' %}" class="card-img-top" alt="..."width=308px height=250px>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">Book name: {{ obj.name }}</h5>
-                    <p class="card-text">Book description: {{ obj.description }}</p>  <br>
-                    <div style="">
-                    <a href="{% url 'books:book-view' obj.pk %}" class="btn btn-primary">View</a>
-                        {% for group in request.user.groups.all %}
-                        {% if group.name == 'Admin' or group.name == 'Super_managers' %}
-                            <a href="{% url 'books:book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
-                            <a href="{% url 'books:book-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
-                        {% elif group.name == 'Managers'%}
-                            <a href="{% url 'books:book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
-                        {% elif group.name == 'Users'%}
-                        <button type="button" class="btn btn-primary"><a href="#"></a><i class="bi bi-cart4"></i></i></a></button>
-                        {% endif %}
-                        {% endfor %}
+                <div class="card" style="width: 280px; height: 510px; float: left; padding: 15px; margin: 15px;">
+                    {% if obj.picture %}
+                        <img src="{{ obj.picture.url }}" class="card-img-top" alt="..." width=308px height=250px>
+                    {% else %}
+                        <img src="{% static 'images.jfif' %}" class="card-img-top" alt="..."width=308px height=250px>
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">Book name: {{ obj.name }}</h5>
+                        <p class="card-text">Book description: {{ obj.description }}</p>  <br>
+                        <div style="">
+                            <a href="{% url 'books:book-view' obj.pk %}" class="btn btn-primary">View</a>
+                        
+                            {% for group in request.user.groups.all %}
+                            {% if group.name == 'Admin' or group.name == 'Super_managers' %}
+                                <a href="{% url 'books:book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'books:book-delete' obj.pk %}" class="btn btn-primary"><i class="bi bi-trash"></i></a>
+                            {% elif group.name == 'Managers'%}
+                                <a href="{% url 'books:book-edit' obj.pk %}" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
+                            {% endif %}
+                            {% endfor %}
+                            <br><br>
+                            <form action="{% url 'orders:add-to-cart' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-3">
+                                        <button type="submit" class="btn btn-primary">
+                                            <a href=""></a><i class="bi bi-cart4"></i></i></a>
+                                        </button>
+                                    </div>
+                                    <div class="col-1">
+                                        <input type="hidden" name="book_id" value="{{ obj.pk }}">
+                                        {% if user.is_authenticated %}
+                                            <input type="number" name="quantity" min = "1" max = "{{ obj.quantity }}" step="1" value="1" style="width: 60px;">
+                                        {% else %}
+                                            <input type="number" name="quantity" min = "1" max = "1" step="1" value="1" style="width: 60px;">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </form>
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>

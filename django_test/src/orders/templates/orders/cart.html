@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+
+{% block header %} {{ user }} {% endblock header %}
+
+{% block body %}
+
+{% if customer == None%}
+    <h4>Sorry, an unregistered user can only buy 1 item. Please register for further purchases.</h4> <br>
+{% endif %}
+
+<h4>Your goods:</h4>
+<p>Book name : {{ book_in_cart.book.name }}.</p>
+<p>Quantity : {{ book_in_cart.quantity }} piece.</p>
+<p>Price : {{ book_in_cart.price }} USD.</p>
+
+<form action="{% url 'orders:books_list' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="Want to proceed to payment?">
+    <input type="hidden" name="session" value="{{ session }}">
+    <input type="hidden" name="customer" value="{{ customer }}">
+</form>
+<br><br>
+<a href="{% url 'books:book-view-all' %}" class="btn btn-primary">Cancel and return to catalog</a>
+{% endblock body %}

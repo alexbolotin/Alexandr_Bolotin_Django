@@ -21,8 +21,9 @@
         </form>
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2"><a href="#"></a><i class="bi bi-cart-check"></i></a></button>
+          
           {% if user.is_authenticated %}       
+          <a href="{% url 'orders:books_list' %}"><button type="button" class="btn btn-outline-light me-2"><i class="bi bi-cart-check"></i></a></button>
           <button type="button" class="btn btn-light"><a href="/"> {{ user }} </a></button>
           <button type="button" class="btn btn-light"><a href="{% url 'auth:logout' %}">Logout</a></button>
           {% else %}
