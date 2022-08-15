@@ -25,11 +25,13 @@
                 <tr>
                     <td>{{ obj.book.name }}</td>
                     <td>{{ obj.book.price }}</td>
-                    <td>
-                        {% if user.is_authenticated %}
-                        <input type="number" name="books_in_cart/\{{ obj.pk }}" id="" value="{{ obj.quantity }}" min="0" max="{{ obj.book.quantity }}" step="1">                        
+                    <td>                        
+                        {% if obj.quantity > obj.book.quantity %}
+                        <input type="number" name="books_in_cart/\{{ obj.pk }}" id="" value="{{ obj.book.quantity }}" min="0" max="{{ obj.book.quantity }}" step="1">                        
                         {% else %}
-                        {{ obj.quantity }}
+                            {% if user.is_authenticated %}
+                            <input type="number" name="books_in_cart/\{{ obj.pk }}" id="" value="{{ obj.quantity }}" min="0" max="{{ obj.book.quantity }}" step="1">                        
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td>{{ obj.price }}</td>

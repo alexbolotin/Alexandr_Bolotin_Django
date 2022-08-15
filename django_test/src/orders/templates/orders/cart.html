@@ -12,7 +12,11 @@
 
 <h4>Your goods:</h4>
 <p>Book name : {{ book_in_cart.book.name }}.</p>
-<p>Quantity : {{ book_in_cart.quantity }} piece.</p>
+
+
+    <p>Quantity : {{ book_in_cart.quantity }} piece.</p>
+
+
 <p>Price : {{ book_in_cart.price }} USD.</p>
 
 <form action="{% url 'orders:books_list' %}" method="post">

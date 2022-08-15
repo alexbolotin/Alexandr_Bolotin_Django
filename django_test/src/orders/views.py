@@ -32,10 +32,10 @@ class AddToCart(TemplateView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        # print(self.request.POST)
         book_id = self.request.POST['book_id']
         quantity = Decimal(self.request.POST['quantity'])
         cart_id = self.request.session.get("cart")
-
         # who is customer:
         if self.request.user.is_anonymous:
             customer = None
@@ -72,6 +72,7 @@ class AddToCart(TemplateView):
 
         # add a book to the cart
         book = Book.objects.get(pk = book_id)
+        
         price = Decimal(Book.objects.get(pk = book_id).price) * quantity
         book_in_cart, created = BookInCart.objects.get_or_create(
             cart = cart,
@@ -82,7 +83,10 @@ class AddToCart(TemplateView):
             }
         )
         if not created:
-            book_in_cart.quantity += quantity
+            if (book_in_cart.quantity+quantity) > book.quantity:
+                book_in_cart.quantity = book.quantity
+            else:
+                book_in_cart.quantity += quantity
             book_in_cart.price = book_in_cart.quantity * price
             book_in_cart.save()
 
@@ -91,6 +95,7 @@ class AddToCart(TemplateView):
         context['cart'] = cart
         context['customer'] = cart.customer    
         context['book_in_cart'] = book_in_cart
+    
         return context
 
     def post(self, request, *args, **kwargs):
@@ -103,7 +108,9 @@ class BooksInCartList(TemplateView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        # print(self.request.POST)
         customer = self.request.user
+    
         try:
             cart = Cart.objects.get(session_id = self.request.POST['session'])
             books = BookInCart.objects.filter(cart = cart)
@@ -112,7 +119,6 @@ class BooksInCartList(TemplateView):
             books = BookInCart.objects.filter(cart = cart)
 
         context['cart'] = cart
-
         context['session'] = cart.session_id
         context['books'] = books
         
@@ -127,6 +133,7 @@ class BooksInCartList(TemplateView):
         total_price_sale = sale_for_groups(total_price,groups)[0]
         context['total_price_sale'] = round(total_price_sale,2)
         context['decimal'] = decimal
+        # context['max_quantity'] = book_in_cart.book.quantity
 
         return context
         
@@ -136,7 +143,7 @@ class BooksInCartList(TemplateView):
 
 class DeleteFromCart(DeleteView):
     template_name = 'orders/delete_from_cart.html'
-    model = BookInCart, Cart
+    model = BookInCart
     success_url = reverse_lazy("orders:books_list")
 
 class OrderUpdateView(TemplateView):
