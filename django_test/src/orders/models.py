@@ -30,10 +30,25 @@ class Cart(models.Model):
         null = True,
         blank=True,
     )
+    status_option = [
+        ('Start', 'Start'),
+        ('Request', 'Request'),
+        ('Processing', 'Processing'),
+        ('Paid', 'Paid'),
+        ('Delivery', 'Delivery'),
+        ('Problemm', 'Problemm'),
+        ('Cancel', 'Cancel'),
+        ('Close', 'Close'),
+    ]
+
+    status = models.CharField(max_length=15,
+                  choices=status_option,
+                  default="Start")
+
 
     def __str__(self) -> str:
         if self.customer:
-            return str(self.customer) + ' in cart'
+            return str(self.customer) + ' in cart ' + str(self.session_id)
         else:
             return "Anonymous #" + str(self.session_id) + ' in cart'
 
@@ -72,6 +87,6 @@ class BookInCart(models.Model):
     )
     def __str__(self) -> str:
         if self.cart.customer:
-            return str(self.book.name) + ' in cart ' + str(self.cart.customer)
+            return str(self.book.name) + ' in cart ' + str(self.cart.customer) + ' #' + str(self.cart.session_id)
         else:
             return str(self.book.name) + ' in cart Anonymous #' + str(self.cart.session_id)

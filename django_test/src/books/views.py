@@ -4,8 +4,8 @@ from directory import models as dirs_model
 from . import forms
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from orders import models as order_model
 # Create your views here.
 
 #  Books
@@ -15,6 +15,11 @@ class BooksList(generic.ListView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        try:
+            cart = order_model.Cart.objects.get(customer = self.request.user)
+            context['session'] = cart.session_id
+        except:
+            True
         return context
     
 

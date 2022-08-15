@@ -1,12 +1,10 @@
-from django.shortcuts import render
 from django.contrib.auth import views as auth_views
-from django.urls import reverse_lazy
-from django.shortcuts import resolve_url
-
-from django.shortcuts import render, redirect
-from .forms import CustomUserForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.shortcuts import resolve_url
+from django.shortcuts import render, redirect
+from .forms import CustomUserForm
 # Create your views here.
 
 class LoginUserView(auth_views.LoginView):
@@ -21,6 +19,9 @@ class LogoutUserView(auth_views.LogoutView):
 
     def get_next_page(self):
         previous = self.request.META.get('HTTP_REFERER')
+        find = "/orders/"
+        if find in previous:
+            previous = "/"
         next_page = previous
         return next_page
 

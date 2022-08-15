@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+
+{% block header %}Cart {{ user }} {% endblock header %}
+
+{% block body %}
+
+asdasd
+<form action="{% url 'orders:order-status' %}" method="post">
+    {% csrf_token %}
+    {% if not books %}
+    <h5>You don't have any books added yet. Want to see what we have?</h5>
+    {% else %}
+    <table class="table">
+        <tr>
+            <td>Name:</td>
+            <td>Price for 1 piece:</td>
+            <td>Quantity:</td>
+            <td>Price:</td>
+        </tr>
+        {% if books %}
+            {% for obj in books %}
+                <tr>
+                    <td>{{ obj.book.name }}</td>
+                    <td>{{ obj.book.price }}</td>
+                    <td>{{ obj.quantity }}</td>
+                    <td>{{ obj.price }}</td>
+            {% endfor %}
+        {% endif %}
+                </tr>
+            <tr>
+                <td colspan="3">Total price:</td>
+                <td colspan="1">{{total_price}}</td>
+            </tr>
+    </table>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Notes and email adress for delivery</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="notes"></textarea>
+    </div>
+    
+    <input type="submit" value="Order" class="btn btn-primary">
+    <input type="hidden" name="session" value="{{ session }}">
+    <input type="hidden" name="status" value="{{ cart.status }}">
+
+</form>
+{% endif %}
+<br><br>
+
+{% endblock body %}

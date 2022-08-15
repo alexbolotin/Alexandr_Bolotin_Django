@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+
+{% block header %}Cart {{ user }} {% endblock header %}
+
+{% block body %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <br>
+    <a href="{% url 'orders:books_list' %}" class="btn btn-primary">Back to cart</a><br><br>
+    <input type="submit" class="btn btn-danger" value="Are you shure?">
+    
+</form>
+
+{% endblock body %}

@@ -5,18 +5,79 @@
 {% block header %}Cart {{ user }} {% endblock header %}
 
 {% block body %}
-{{ session }}
-
-{% if books %}
-    {% for obj in books %}
-        book name: {{ obj.book.name }} <br>
-        quantity: {{ obj.quantity }} <br>
-        price: {{ obj.price }} <br>
-        ==============<br>
-    {% endfor %}
-<p>Total price: {{total_price}}</p>
-
+<form action="{% url 'orders:update-carts' %}" method="post">
+    {% csrf_token %}
+    {% if not books %}
+    <h5>You don't have any books added yet. Want to see what we have?</h5>
+    {% else %}
+    <table class="table">
+        <tr>
+            <td>Name:</td>
+            <td>Price for 1 piece:</td>
+            <td>Quantity:</td>
+            <td>Price:</td>
+            {% if user.is_authenticated %}
+            <td>Actions:</td>
+            {% endif %}
+        </tr>
+        {% if books %}
+            {% for obj in books %}
+                <tr>
+                    <td>{{ obj.book.name }}</td>
+                    <td>{{ obj.book.price }}</td>
+                    <td>
+                        {% if user.is_authenticated %}
+                        <input type="number" name="books_in_cart/\{{ obj.pk }}" id="" value="{{ obj.quantity }}" min="0" max="{{ obj.book.quantity }}" step="1">                        
+                        {% else %}
+                        {{ obj.quantity }}
+                        {% endif %}
+                    </td>
+                    <td>{{ obj.price }}</td>
+                    <td>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'orders:delete_from_cart' obj.pk %}" class="btn btn-danger">Delete</a></td>
+                        {% endif %}
+                </tr>
+            {% endfor %}
+        {% endif %}
+            <tr>
+                <td colspan="2">Total price:</td>
+                <td>{{total_price}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">Sale:</td>
+                <td>{{decimal}}</td>
+                <td>enter sale code</td>
+            </tr>
+            <tr>
+                <td colspan="2">Total price with Sale:</td>
+                <td>{{total_price_sale}}</td>
+                <td></td>
+            </tr>
+    </table>
+    {% if user.is_authenticated %}
+        <input type="submit" value="Update" class="btn btn-primary">
+        <input type="hidden" name="session" value="{{ session }}">
+    {% endif %}
+</form>
 {% endif %}
 <br><br>
-<a href="{% url 'books:book-view-all' %}" class="btn btn-primary">View all books</a>
+
+<a href="{% url 'books:book-view-all' %}" class="btn btn-primary">To books view</a>
+<br><br>
+
+{% if books %}
+
+<form action="{% url 'orders:order-confirm' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="Want to proceed to payment?">
+    <input type="hidden" name="total_price" value="{{total_price_sale}}">
+    <input type="hidden" name="customer" value="{{ user }}">
+    <input type="hidden" name="session" value="{{ session }}">
+
+</form>
+
+{% endif %}
+
 {% endblock body %}

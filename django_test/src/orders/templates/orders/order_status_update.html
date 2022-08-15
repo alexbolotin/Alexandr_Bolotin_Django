@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} Order status {% endblock title %}
+
+{% block header %} Order status {{status}}{% endblock header %}
+
+{% block body %}
+
+{% if status == 'Cancel'%}
+    <h3>You cancel your order and delete all your choice</h3>
+{% elif status == 'Processing'%}
+    <h3>Your status has changed, please wait for our managers to process it and contact you.</h3>
+{% endif%}
+
+    
+{% endblock body %}

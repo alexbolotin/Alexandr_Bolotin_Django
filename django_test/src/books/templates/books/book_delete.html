@@ -5,12 +5,10 @@
 {% block header %}Book delete. Are you sure to delete {{ object.name }} ??{% endblock header %}
 
 {% block body %}
-    <ul>
         <form action="" method="post">
             {% csrf_token %}
             <br>
             <input type="submit">
         </form>
-    </ul>
 
 {% endblock body %}

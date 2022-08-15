@@ -6,10 +6,11 @@
 
 {% block body %}
 
-    <div style="overflow: hidden;">
-        <div style="width: 1000%;">
+    <div class="container">
+        <div class="row">
             {% for obj in object_list %}
-                <div class="card" style="width: 280px; height: 510px; float: left; padding: 15px; margin: 15px;">
+                <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-5">
+                <div class="card" style="width: 300px; height: 550px; float: left; padding: 10px; margin: 10px;">
                     {% if obj.picture %}
                         <img src="{{ obj.picture.url }}" class="card-img-top" alt="..." width=308px height=250px>
                     {% else %}
@@ -53,9 +54,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
             {% endfor %}
-        </div>
+        </div> 
     </div>
+
     <br><br>
     {% for group in request.user.groups.all %}
     {% if group.name == 'Admin' or group.name == 'Super_managers' or group.name == 'Managers' %}
