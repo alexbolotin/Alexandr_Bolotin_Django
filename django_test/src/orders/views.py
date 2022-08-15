@@ -1,9 +1,8 @@
-from django.views.generic import TemplateView,DeleteView,UpdateView
+from django.views.generic import TemplateView,DeleteView
 from .models import Cart, BookInCart
 from books.models import Book
 from decimal import Decimal
 from django.urls import reverse_lazy
-from . import forms
 # Create your views here.
 
 def sale_for_groups(total_price,groups):
@@ -147,7 +146,6 @@ class OrderUpdateView(TemplateView):
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         querydict = self.request.POST.copy()
-        customer = self.request.user
         querydict.pop('csrfmiddlewaretoken')
         querydict.pop('session')
         session_id = self.request.POST['session']
