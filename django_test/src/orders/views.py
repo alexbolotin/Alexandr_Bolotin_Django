@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.views.generic import TemplateView,DeleteView
 from .models import Cart, BookInCart
 from books.models import Book
@@ -32,8 +33,9 @@ class AddToCart(TemplateView):
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         book_id = self.request.POST['book_id']
-        quantity = int(self.request.POST['quantity'])
+        quantity = Decimal(self.request.POST['quantity'])
         cart_id = self.request.session.get("cart")
+
         # who is customer:
         if self.request.user.is_anonymous:
             customer = None
@@ -70,8 +72,7 @@ class AddToCart(TemplateView):
 
         # add a book to the cart
         book = Book.objects.get(pk = book_id)
-        price = int(Book.objects.get(pk = book_id).price) * quantity
-
+        price = Decimal(Book.objects.get(pk = book_id).price) * quantity
         book_in_cart, created = BookInCart.objects.get_or_create(
             cart = cart,
             book = book,
@@ -115,7 +116,7 @@ class BooksInCartList(TemplateView):
         context['session'] = cart.session_id
         context['books'] = books
         
-        total_price = 0
+        total_price = Decimal(0)
         for book in books:
             total_price += book.price
         context['total_price'] = total_price
@@ -124,7 +125,6 @@ class BooksInCartList(TemplateView):
         decimal = ""
         decimal = sale_for_groups(total_price,groups)[1]
         total_price_sale = sale_for_groups(total_price,groups)[0]
-        
         context['total_price_sale'] = round(total_price_sale,2)
         context['decimal'] = decimal
 
@@ -185,6 +185,7 @@ class OrderConfirm(TemplateView):
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         # print(self.request.POST)
+        
         session = self.request.POST['session']
         total_price = self.request.POST['total_price']
         cart = Cart.objects.get(session_id = session)
@@ -211,7 +212,6 @@ class OrderStatus(TemplateView):
 
         session = self.request.POST['session']
         context['session'] = session
-
 
         carts = Cart.objects.all()
         context['carts'] = carts

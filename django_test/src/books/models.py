@@ -53,8 +53,7 @@ class Book(models.Model):
         verbose_name= "Price",
         decimal_places=2,
         max_digits=7,
-        null = True,
-        blank=True,
+        default=5
     )
 
     def __str__(self) -> str:
