@@ -9,10 +9,18 @@
 <form action="" method="post">
     {% csrf_token %}
     <br>
-    <a href="{% url 'orders:books_list' %}" class="btn btn-primary">Back to cart</a><br><br>
     <input type="submit" class="btn btn-danger" value="Are you shure?">
-    <input type="hidden" name="session" value="None">
+    <input type="hidden" name="session" value="{{object.cart.session_id}}">
+    <input type="hidden" name="xxx" value="xxx">
+</form>
 
+<br><br>
+
+<form action="{% url 'orders:books_list' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" value="Back to cart">
+    <input type="hidden" name="session" value="{{object.cart.session_id}}">
+    <input type="hidden" name="customer" value="{{object.cart.customer}}">
 </form>
 
 {% endblock body %}

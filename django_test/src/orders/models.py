@@ -17,13 +17,13 @@ class Cart(models.Model):
     )
     created_date = models.DateTimeField(
         verbose_name= "Created",
-        auto_now= False,
+        # auto_now= True,
         auto_now_add= True,
     )
     updated_date = models.DateTimeField(
         verbose_name= "Updated",
         auto_now= True,
-        auto_now_add= False,
+        # auto_now_add= False,
     )
     session_id = models.SmallIntegerField(
         verbose_name= "Session ID",
@@ -87,6 +87,6 @@ class BookInCart(models.Model):
     )
     def __str__(self) -> str:
         if self.cart.customer:
-            return str(self.book.name) + ' in cart ' + str(self.cart.customer) + ' #' + str(self.cart.session_id)
+            return str(self.pk) + ' ' + str(self.book.name) + ' in cart ' + str(self.cart.customer) + ' #' + str(self.cart.session_id)
         else:
-            return str(self.book.name) + ' in cart Anonymous #' + str(self.cart.session_id)
+            return str(self.pk) + ' ' + str(self.book.name) + ' in cart Anonymous #' + str(self.cart.session_id)

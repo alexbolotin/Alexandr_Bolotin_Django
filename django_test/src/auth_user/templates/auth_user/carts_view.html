@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Carts view{% endblock title %}
+
+{% block header %}Carts {{ user }} view{% endblock header %}   
+    
+{% block body %}   
+   
+    {% if carts %}
+        <b>Your Cart :</b><br><br>
+        {% for cart in carts %}
+            <a href="{% url 'auth:cart-view' cart.session_id %}">Cart {{ cart.pk }}</a><br>            
+        {% endfor %}
+    {% else%}
+    <h4>There is no such information yet</h4>
+    {% endif %}
+    
+    <br><br><br>
+    {% comment %} <a href="{% url 'dirs:author-view-all' %}"><button type="button" class="btn btn-primary">All Authors</button></a> {% endcomment %}
+    
+{% endblock body %}

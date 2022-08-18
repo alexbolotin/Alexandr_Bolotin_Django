@@ -4,6 +4,7 @@ from .models import Cart, BookInCart
 from books.models import Book
 from decimal import Decimal
 from django.urls import reverse_lazy
+from django.db.models import Q
 # Create your views here.
 
 def sale_for_groups(total_price,groups):
@@ -36,41 +37,36 @@ class AddToCart(TemplateView):
         book_id = self.request.POST['book_id']
         quantity = Decimal(self.request.POST['quantity'])
         cart_id = self.request.session.get("cart")
-        # who is customer:
+# who is customer:
         if self.request.user.is_anonymous:
             customer = None
         else:
             customer = self.request.user
-
-        # get or create a cart
+# get or create a cart
         if customer:  # customer = True
-            try:
-                cart = Cart.objects.get(customer = customer)
-                if cart.status != "Start":
-                    cart = Cart.objects.create(
-                            customer = customer,
-                        )
-                    cart.session_id = cart.pk
-                    cart.save()
-            except:
+            try: # get old cart
+                carts = Cart.objects.filter(Q(customer = customer) & Q(status = "Start"))
+                cart = carts.first()
+                cart.status
+            except:# create new cart
                 cart = Cart.objects.create(
                             customer = customer,
                         )
                 cart.session_id = cart.pk
                 cart.save()
-        else:  # customer = None
-            # new user without id in session
+        else:  # customer = Anonymous
+# new user without id in session
             if not cart_id: 
                 cart = Cart.objects.create(
                         customer = customer,
                 )
                 cart.session_id = cart.pk
                 cart.save()
-            # new user with id in session
+# new user with id in session
             else:
                 cart = Cart.objects.get(session_id = self.request.session['cart'])
 
-        # add a book to the cart
+# add a book to the cart
         book = Book.objects.get(pk = book_id)
         
         price = Decimal(Book.objects.get(pk = book_id).price) * quantity
@@ -108,15 +104,12 @@ class BooksInCartList(TemplateView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        # print(self.request.POST)
+        # print('post',self.request.POST)
+        
         customer = self.request.user
-    
-        try:
-            cart = Cart.objects.get(session_id = self.request.POST['session'])
-            books = BookInCart.objects.filter(cart = cart)
-        except:
-            cart = Cart.objects.get(customer = customer)
-            books = BookInCart.objects.filter(cart = cart)
+        carts = Cart.objects.filter(Q(customer = customer) & Q(status = "Start"))
+        cart = carts.first()
+        books = BookInCart.objects.filter(cart = cart)
 
         context['cart'] = cart
         context['session'] = cart.session_id
@@ -133,7 +126,6 @@ class BooksInCartList(TemplateView):
         total_price_sale = sale_for_groups(total_price,groups)[0]
         context['total_price_sale'] = round(total_price_sale,2)
         context['decimal'] = decimal
-        # context['max_quantity'] = book_in_cart.book.quantity
 
         return context
         
@@ -152,6 +144,7 @@ class OrderUpdateView(TemplateView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        # print(self.request.POST)
         querydict = self.request.POST.copy()
         querydict.pop('csrfmiddlewaretoken')
         querydict.pop('session')

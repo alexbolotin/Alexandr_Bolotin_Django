@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart view{% endblock title %}
+
+{% block header %}Cart {{ user }} {% endblock header %}   
+    
+{% block body %}   
+<h4>Your book in cart:</h4>
+{% for book in books %}
+{{book.book.name }}<br>
+{% endfor %}
+
+<br><br>
+{% if object.status == "Start"%}
+<h4>You can edit your cart untill you complete your order:</h4>
+    <form action="{% url 'orders:books_list' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Want to edit?">
+        <input type="hidden" name="session" value="{{ object.session_id }}">
+        <input type="hidden" name="customer" value="{{ object.customer }}">
+    </form>
+    <br><br>
+
+{% else %}
+<h4>You can't edit your cart, managers have already started processing it.</h4>
+<h5>Status of your order:  {{object.status }}</h5>
+{%endif%}
+
+<br><br>
+{% if object.status != "Close"%}
+<form action="{% url 'orders:order-status-update' %}" method="post">
+    {% csrf_token %}
+        <input type="submit" value="Whant to cancel?" class="btn btn-danger">
+        <input type="hidden" name="session" value="{{ object.session_id }}">   
+        <input type="hidden" name="status_" value="Cancel">   
+</form>
+{%endif%}
+
+
+{% endblock body %}

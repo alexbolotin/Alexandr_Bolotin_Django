@@ -12,7 +12,9 @@ class Homepage(generic.TemplateView):
     
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        # print(self.request.POST)
+        print(self.request.user)
+        books = book_models.Book.objects.all()
+        context['books'] = books      
         return context  
         
     def post(self, request, *args, **kwargs):

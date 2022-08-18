@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home page{% endblock title %}
 
@@ -6,10 +7,49 @@
 
 {% block body %}
 
-    <h3>User : {{ user }} </h3><br>
+<div id="carouselExampleControls" class="carousel slide " data-bs-ride="carousel" >
+    <div class="carousel-inner" style = "left: 45%; width: 350px;height:280px;">
+      <div class="carousel-item active">
+        <a href="{% url 'books:book-view' books.first.pk %}" class="btn btn-primary"><img src="{{ books.first.picture.url }}" class="card-img-top" alt="..." width=308px height=250px></a>
+      </div>
+      {% for book in books %}
+            <div class="carousel-item">
+                {% if book.picture %}
+                <a href="{% url 'books:book-view' book.pk %}" class="btn btn-primary"><img src="{{ book.picture.url }}" class="card-img-top" alt="..." width=308px height=250px></a>
+                {% else %}
+                <a href="{% url 'books:book-view' book.pk %}" class="btn btn-primary"><img src="{% static 'images.jfif' %}" class="card-img-top" alt="..." width=308px height=250px></a>
+                    {% endif %}
+            </div>
+        {% endfor %}
+   
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+
+        {% comment %} {% for book in books %}
+            <div class="carousel-item">
+                {% if book.picture %}
+                        <img src="{{ book.picture.url }}" class="card-img-top" alt="..." width=308px height=250px>
+                    {% else %}
+                        <img src="{% static 'images.jfif' %}" class="card-img-top" alt="..."width=308px height=250px>
+                    {% endif %}
+        {% endfor %} {% endcomment %}
+
+
+    {% comment %} <h3>User : {{ user }} </h3><br>
     <h3>User groups : {{ user.groups.all }} </h3><br>
     <h3>User permissons: {{ perms.foo }} </h3><br>
-    <br><br><br>
+    <br><br><br> {% endcomment %}
 
     {%if user.is_authenticated %}
     <h1> Make your choice from the menu </h1>

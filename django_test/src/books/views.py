@@ -1,4 +1,3 @@
-from requests import request
 from books import models
 from directory import models as dirs_model
 from . import forms
