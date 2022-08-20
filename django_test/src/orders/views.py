@@ -241,6 +241,7 @@ class ChangeStatus(TemplateView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        # print(self.request.POST)
         session = self.request.POST['session']
 
         cart = Cart.objects.get(session_id = session)

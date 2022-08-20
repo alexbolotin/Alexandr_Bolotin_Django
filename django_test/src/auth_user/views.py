@@ -78,7 +78,6 @@ class CartsList(LoginRequiredMixin,ListView):
             context['carts'] = carts
         else:
             context['carts'] = None
-
         return context
 
 
@@ -89,8 +88,8 @@ class CartView(LoginRequiredMixin,TemplateView):
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        # print(self.request.GET)
-        session_id = self.request.GET['session']
+        # print(self.request.POST)
+        session_id = self.request.POST['session']
         cart = order_model.Cart.objects.get(session_id = session_id)
         books = order_model.BookInCart.objects.filter(cart = cart)
         context['cart'] = cart

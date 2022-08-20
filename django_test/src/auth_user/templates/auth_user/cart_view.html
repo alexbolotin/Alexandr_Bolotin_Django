@@ -11,27 +11,27 @@
 {% endfor %}
 
 <br><br>
-{% if object.status == "Start"%}
+
+{% if cart.status == "Start"%}
 <h4>You can edit your cart untill you complete your order:</h4>
     <form action="{% url 'orders:books_list' %}" method="post">
         {% csrf_token %}
         <input type="submit" class="btn btn-primary" value="Want to edit?">
-        <input type="hidden" name="session" value="{{ object.session_id }}">
-        <input type="hidden" name="customer" value="{{ object.customer }}">
+        <input type="hidden" name="session" value="{{ cart.session_id }}">
+        <input type="hidden" name="customer" value="{{ cart.customer }}">
     </form>
     <br><br>
 
 {% else %}
 <h4>You can't edit your cart, managers have already started processing it.</h4>
-<h5>Status of your order:  {{object.status }}</h5>
+<h5>Status of your order:  {{cart.status }}</h5>
 {%endif%}
-
 <br><br>
-{% if object.status != "Close"%}
+{% if cart.status != "Close"%}
 <form action="{% url 'orders:order-status-update' %}" method="post">
     {% csrf_token %}
         <input type="submit" value="Whant to cancel?" class="btn btn-danger">
-        <input type="hidden" name="session" value="{{ object.session_id }}">   
+        <input type="hidden" name="session" value="{{ cart.session_id }}">   
         <input type="hidden" name="status_" value="Cancel">   
 </form>
 {%endif%}

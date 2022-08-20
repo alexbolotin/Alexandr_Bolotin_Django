@@ -11,9 +11,9 @@
         <b>Your Carts :</b><br><br>
 
         {% for cart in carts %}
-        <form action="{% url 'auth:cart-view' cart.session_id %}" method="get">
+        <form action="{% url 'auth:cart-view' cart.session_id %}" method="post">
             {% csrf_token %}
-            <input type="submit" value="Cart {{ cart.pk }}" class="btn btn-primary btn-sm">
+            <input type="submit" value="Cart {{ cart.pk }}. Status - {{ cart.status }}" class="btn btn-primary btn-sm">
             <input type="hidden" name="session" value="{{ cart.session_id }}">
         </form>        
         <br>    
