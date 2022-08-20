@@ -96,8 +96,10 @@ class CartView(LoginRequiredMixin,TemplateView):
         context['cart'] = cart
         context['books'] = books
         context['session'] = session_id
-        
-        note = cart.notes.replace('#', ': ')
+        if cart.notes:
+            note = cart.notes.replace('#', ': ')
+        else:
+            note = "let's start chat? Say something"
         notes_lines = []
         notes_lines = note.split('\n')
         context['notes_lines'] = notes_lines
