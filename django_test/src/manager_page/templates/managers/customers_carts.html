@@ -1,0 +1,19 @@
+{% extends 'base_manager.html' %}
+{% load static %}
+{% block title %}All customers carts{% endblock title %}
+
+{% block header %}Manager {{ user }} {% endblock header %}
+
+{% block body %}
+
+<h4>All customers carts:</h4><br>
+    
+{% for cart in carts %}
+    <form action="{% url 'managers:books-in-cart' %}" method="get">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary btn-sm" value='Cart # {{cart.session_id}} with status {{cart.status}}'>
+        <input type="hidden" name="session" value="{{ cart.session_id }}">
+    </form>
+    <br>
+{% endfor %}
+{% endblock body %}

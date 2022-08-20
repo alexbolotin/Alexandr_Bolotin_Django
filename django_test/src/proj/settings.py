@@ -53,6 +53,7 @@ INSTALLED_APPS += [
     "crispy_bootstrap5",
     "auth_user",
     "orders",
+    "manager_page",
 ]
 
 

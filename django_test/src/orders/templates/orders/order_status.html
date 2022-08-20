@@ -6,30 +6,6 @@
 
 {% block body %}
 
-{% comment %} {% for group in request.user.groups.all %}
-    {% if group.name == 'Super_managers' or group.name == 'Managers'%}
-        <form action="{% url 'orders:order-status-update' %}" method="post">
-            {% csrf_token %}
-                <h3>Status of {{ user }} order - {{status}} </h3>
-                <p><select name="status_">
-                    <option value="{{status}}">{{status}}</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Delivery">Delivery</option>
-                    <option value="Problemm">Problem</option>
-                    <option value="Cancel">Cancel</option>
-                </select></p>
-                <p><input type="submit" value="Update status" class="btn btn-primary"></p>
-                <input type="hidden" name="session" value="{{ session }}">
-        </form>
-    {% elif group.name == 'Admin'%}
-        {% for cart in carts%}
-            {{ cart.customer }} : {{cart}} - {{cart.status}}<br>
-            {% endfor %}
-            {% endif %}
-        {% endfor %} {% endcomment %}
-
-        
         <h3>Whant to cancel your order?</h3>
         <form action="{% url 'orders:order-status-update' %}" method="post">
             {% csrf_token %}
@@ -46,5 +22,4 @@
                 <input type="hidden" name="status_" value="Processing">    
         </form>
         <br>   
-                
 {% endblock body %}

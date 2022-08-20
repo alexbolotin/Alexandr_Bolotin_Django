@@ -45,6 +45,12 @@ class Cart(models.Model):
                   choices=status_option,
                   default="Start")
 
+    notes = models.TextField(
+        verbose_name='Cart notes',
+        blank =  True,
+        null = True
+    )
+
 
     def __str__(self) -> str:
         if self.customer:

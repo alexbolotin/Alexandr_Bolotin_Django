@@ -38,20 +38,20 @@
 
 <br>
 <h4>Chat: </h4>
+    {% for line in notes_lines%}
+        {{line}} <br>
+    {%endfor%}
 
-{% for line in notes_lines%}
-{{line}} <br>
-{%endfor%}
-<br>
- <form action="{% url 'auth:cart-view-update' cart.session_id %}" method="post">
+<form action="{% url 'auth:cart-view-update' cart.session_id %}" method="post">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">Customer message:</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="notes"></textarea>
-    </div>
-    <p><input type="submit" value="Update/Send message" class="btn btn-primary"></p>
-    <input type="hidden" name="session" value="{{ session }}">
+        <input type="hidden" name="session" value="{{ session }}">
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Customer message:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="notes"></textarea>
+        </div>
+        <p><input type="submit" value="Update/Send message" class="btn btn-primary"></p>
 </form>
+
 
 
 {% endblock body %}

@@ -1,20 +1,17 @@
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView,ListView
+from django.shortcuts import render, redirect,resolve_url
 from django.urls import reverse_lazy
-from django.shortcuts import resolve_url
-from django.shortcuts import render, redirect
 
 from .forms import CustomUserForm
-from django.views.generic import TemplateView,DetailView,ListView
 from orders import models as order_model
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
 def def_next_page(value):
     previous = value.request.META.get('HTTP_REFERER')
-    print(previous)
     find = ['/auth/','/order/','/orders/']
     for url in find:
         x = previous.lower().count(url)
@@ -80,21 +77,63 @@ class CartsList(LoginRequiredMixin,ListView):
             carts = order_model.Cart.objects.filter(customer = self.request.user)
             context['carts'] = carts
         else:
-            print('2',customer)
             context['carts'] = None
+
         return context
 
 
-class CartView(LoginRequiredMixin,DetailView):
+class CartView(LoginRequiredMixin,TemplateView):
     template_name = "auth_user/cart_view.html"
     model = order_model.Cart
     login_url = '/auth/login'
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        session_id = self.object.session_id
+        # print(self.request.GET)
+        session_id = self.request.GET['session']
         cart = order_model.Cart.objects.get(session_id = session_id)
         books = order_model.BookInCart.objects.filter(cart = cart)
         context['cart'] = cart
         context['books'] = books
+        context['session'] = session_id
+        
+        note = cart.notes.replace('#', ': ')
+        notes_lines = []
+        notes_lines = note.split('\n')
+        context['notes_lines'] = notes_lines
+
         return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(*args, **kwargs)
+        return self.render_to_response(context)
+
+class UpdateCartView(LoginRequiredMixin,TemplateView):
+    template_name = "auth_user/cart_view_update.html"
+    model = order_model.Cart
+    login_url = '/auth/login'
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        # print(self.request.POST)
+        session_id = self.request.POST['session']
+        cart = order_model.Cart.objects.get(session_id = session_id)
+        books = order_model.BookInCart.objects.filter(cart = cart)
+        context['cart'] = cart
+        context['books'] = books
+        
+        new_note = self.request.POST['notes']
+        note = cart.notes
+        note += 'user ' + str(self.request.user) + '#' + str(new_note) + '\n'
+        cart.notes = note
+        cart.save()
+        note = cart.notes.replace('#', ': ')
+        notes_lines = []
+        notes_lines = note.split('\n')
+        context['notes_lines'] = notes_lines
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(*args, **kwargs)
+        return self.render_to_response(context)

@@ -1,0 +1,21 @@
+{% extends 'base_manager.html' %}
+{% load static %}
+{% block title %}Managers{% endblock title %}
+
+{% block header %}Manager {{ user }} {% endblock header %}
+
+{% block body %}
+
+<h4>List:</h4><br>
+    <ul>
+        <li><a href="{% url 'managers:all-customers' %}" class="btn btn-primary">All customers</a></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    
+{{users}}
+{{carts}}
+
+{% endblock body %}

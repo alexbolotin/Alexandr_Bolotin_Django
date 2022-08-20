@@ -1,0 +1,19 @@
+{% extends 'base_manager.html' %}
+{% load static %}
+{% block title %}All customers{% endblock title %}
+
+{% block header %}Manager {{ user }} {% endblock header %}
+
+{% block body %}
+
+<h4>All customers:</h4><br>
+    
+{% for customer in users %}
+    <form action="{% url 'managers:all-customers-carts' %}" method="get">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary btn-sm" name = "customer" value={{customer}}>
+    </form>
+    <br>
+{% endfor %}
+
+{% endblock body %}

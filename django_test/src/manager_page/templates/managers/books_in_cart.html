@@ -1,0 +1,46 @@
+{% extends 'base_manager.html' %}
+{% load static %}
+{% block title %}All books in cart{% endblock title %}
+
+{% block header %}Manager {{ user }} {% endblock header %}
+
+{% block body %}
+
+<h4>All books in this cart:</h4><br>
+    
+{% for book in books %}
+    {{book.book.name}} <br>
+{% endfor %}
+<br><br>
+
+<h4>Chat: </h4>
+{% for line in notes_lines%}
+{{line}} <br>
+{%endfor%}
+
+<br><br>
+<h4>Change status?</h4>
+
+        <form action="{% url 'managers:books-in-cart-update' %}" method="post">
+            {% csrf_token %}
+                <h3>Status {{ customer }} order - {{status}} </h3>
+                <p><select name="status_">
+                    <option value="{{status}}">{{status}}</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Delivery">Delivery</option>
+                    <option value="Problemm">Problem</option>
+                    <option value="Cancel">Cancel</option>
+                </select></p>
+                <input type="hidden" name="session" value="{{ session }}">
+                
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Manager answer</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="notes"></textarea>
+                </div>
+                <p><input type="submit" value="Update status" class="btn btn-primary"></p>
+        </form>
+
+
+
+{% endblock body %}

@@ -31,6 +31,13 @@
           {% else %}
           <button type="button" class="btn btn btn-light"><a href="{% url 'auth:login' %}"> Login </a></button>
           {% endif %}
+
+          {% for group in request.user.groups.all %}
+            {% if group.name == 'Admin' or group.name == 'Super_managers' or group.name == 'Managers'%}
+              <button type="button" class="btn btn-light"><a href="{% url 'managers:main-menu' %}">Manager menu</a></button>
+            {% endif %}
+          {% endfor %}
+
         </div>
       </div>
     </div>
