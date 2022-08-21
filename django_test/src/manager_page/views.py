@@ -71,7 +71,7 @@ class BooksInCart(LoginRequiredMixin,ListView):
         if cart.notes:
             note = cart.notes.replace('#', ': ')
         else:
-            note = "let's start chat? Say something"
+            note = "let's start chat? Say something\n"
         
         notes_lines = []
         notes_lines = note.split('\n')
@@ -102,6 +102,11 @@ class BooksInCartUpdate(LoginRequiredMixin,TemplateView):
 
         new_note = self.request.POST['notes']
         note = cart.notes
+        print(note)
+        if cart.notes:
+            note = cart.notes.replace('#', ': ')
+        else:
+            note = "let's start chat? Say something\n" 
         note += 'manager ' + str(self.request.user) + '#' + str(new_note) + '\n'
         cart.notes = note
         cart.save()
