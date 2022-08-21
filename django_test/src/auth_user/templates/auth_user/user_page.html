@@ -2,15 +2,12 @@
 {% load static %}
 {% block title %}User page{% endblock title %}
 
-{% block header %}User page{% endblock header %} 
+{% block header %}Hello {{user}}{% endblock header %} 
   
 {% block body %}   
 
-<h3>Hello {{user}} </h3>
+<a href="{% url 'auth:settings' %}" class="btn btn-primary"><input type="button" value="Account settings " class="btn btn-primary btn-sm"></a><br><br>
 
-{% for cart in carts %}
+<a href="{% url 'auth:carts-view' %}" class="btn btn-primary"><input type="button" value="Your Carts " class="btn btn-primary btn-sm"></a><br>
 
-<a href="{% url 'auth:cart-view' author.pk %}">{{ cart }}</a>
-
-{% endfor %}
 {% endblock body %}  

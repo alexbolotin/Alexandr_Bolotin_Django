@@ -189,6 +189,11 @@ class OrderConfirm(TemplateView):
         session = self.request.POST['session']
         total_price = self.request.POST['total_price']
         cart = Cart.objects.get(session_id = session)
+        cart.total_price = total_price
+        cart.save()
+        print(cart)
+        print(total_price)
+        
         context['cart'] = cart
         books = BookInCart.objects.filter(cart = cart)
         context['books'] = books

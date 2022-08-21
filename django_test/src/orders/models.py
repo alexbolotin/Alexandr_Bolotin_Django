@@ -51,6 +51,15 @@ class Cart(models.Model):
         null = True
     )
 
+    total_price = models.DecimalField(
+        verbose_name= "Total Price",
+        decimal_places=2,
+        max_digits=7,
+        default=0.0,
+        null = True,
+        blank=True,
+    )
+
 
     def __str__(self) -> str:
         if self.customer:

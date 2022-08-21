@@ -23,6 +23,13 @@ def def_next_page(value):
         next_page = previous
     return next_page
 
+def if_else(value):
+    if value:
+        return value
+    else:
+        value = False
+        return value
+
 class LoginUserView(auth_views.LoginView):
     template_name = "auth_user/login.html"
 
@@ -52,7 +59,6 @@ def register_page(request):
     context = {'form': form}
     return render(request, 'auth_user/registration.html', context)
 
-
 class UserPage(LoginRequiredMixin,TemplateView):
     template_name = "auth_user/user_page.html"
     model = order_model.Cart
@@ -63,8 +69,55 @@ class UserPage(LoginRequiredMixin,TemplateView):
         customer = self.request.user
         carts = order_model.Cart.objects.filter(customer = customer)
         context['carts'] = carts
+
         return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(*args, **kwargs)
+        return self.render_to_response(context)
     
+class UserSettings(LoginRequiredMixin,TemplateView):
+    template_name = "auth_user/user_settings.html"
+    model = User
+    login_url = '/auth/login'
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        form = CustomUserForm
+        context['form'] = form
+        context['User_name'] = if_else(self.request.user.username)
+        context['First_name'] = if_else(self.request.user.first_name)
+        context['Last_name'] = if_else(self.request.user.last_name)
+        context['Email'] = if_else(self.request.user.email)
+        return context
+
+class UserSettingsUpdate(LoginRequiredMixin,TemplateView):
+    template_name = "auth_user/user_settings_update.html"
+    model = User
+    login_url = '/auth/login'
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+       
+        user = User.objects.get(username = self.request.user.username)
+        user.username = self.request.POST['username']
+        user.email = self.request.POST['email']
+        user.first_name = self.request.POST['first_name']
+        user.last_name = self.request.POST['last_name']
+        user.save()
+
+        context['Email'] = if_else(user.email)
+        context['User_name'] = if_else(user.username)
+        context['First_name'] = if_else(user.first_name)
+        context['Last_name'] = if_else(user.last_name)
+
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(*args, **kwargs)
+        return self.render_to_response(context)
+
 class CartsList(LoginRequiredMixin,ListView):
     template_name = "auth_user/carts_view.html"
     model = order_model.Cart
@@ -79,7 +132,6 @@ class CartsList(LoginRequiredMixin,ListView):
         else:
             context['carts'] = None
         return context
-
 
 class CartView(LoginRequiredMixin,TemplateView):
     template_name = "auth_user/cart_view.html"

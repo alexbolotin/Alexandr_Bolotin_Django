@@ -9,8 +9,11 @@
 {% for book in books %}
 {{book.book.name }}<br>
 {% endfor %}
+<br>
+<h4>Your total price:</h4>
+{{cart.total_price}} USD<br>
 
-<br><br>
+<br>
 
 {% if cart.status == "Start"%}
 <h4>You can edit your cart untill you complete your order:</h4>

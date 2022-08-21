@@ -48,6 +48,8 @@
         <p>There is no such information yet</p>
     {% endif %}
 
+    <b>Price:</b> {{ object.price }} USD<br><br>
+
     {% if object.picture %}
     <img src="{{ object.picture.url }}" alt="..." width=150px height=200px>
     {% else %}
