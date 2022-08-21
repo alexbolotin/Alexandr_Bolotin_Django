@@ -6,12 +6,17 @@
 
 {% block body %}
 
-<h4>All books in this cart:</h4><br>
+<h4>Customer {{cart.customer}}.</h4><br>
+<h4>All books in cart № {{cart.session_id}} :</h4><br>
     
-{% for book in books %}
-    {{book.book.name}} <br>
-{% endfor %}
-<br><br>
+{% if books %}
+    {% for book in books %}
+        {{book.book.name}} <br>
+    {% endfor %}
+{% else %}
+<h6> There is no information yet</h6><br>
+{% endif %}
+<br>
 
 <h4>Chat: </h4>
 {% for line in notes_lines%}

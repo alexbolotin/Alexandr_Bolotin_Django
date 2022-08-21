@@ -2,14 +2,15 @@ from django.shortcuts import render
 from django.views.generic import TemplateView,DeleteView,ListView
 from orders.models import Cart, BookInCart
 from books.models import Book
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 # Create your views here.
 
-class MainPage(TemplateView):
+class MainPage(LoginRequiredMixin,TemplateView):
     template_name = 'managers/mian_manager_page.html'
-    
+    login_url = '/auth/login'
+
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -21,9 +22,10 @@ class MainPage(TemplateView):
         context['users'] = users        
         return context
 
-class AllCustomers(ListView):
+class AllCustomers(LoginRequiredMixin,ListView):
     template_name = 'managers/all_customers.html'
     model = User
+    login_url = '/auth/login'
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -32,9 +34,11 @@ class AllCustomers(ListView):
         context['users'] = users        
         return context
 
-class CustomersCarts(ListView):
+class CustomersCarts(LoginRequiredMixin,ListView):
     template_name = 'managers/customers_carts.html'
     model = Cart
+    login_url = '/auth/login'
+
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -44,9 +48,10 @@ class CustomersCarts(ListView):
         context['carts'] = carts       
         return context
 
-class BooksInCart(ListView):
+class BooksInCart(LoginRequiredMixin,ListView):
     template_name = 'managers/books_in_cart.html'
     model = BookInCart
+    login_url = '/auth/login'
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -63,16 +68,21 @@ class BooksInCart(ListView):
         context['status'] = cart.status
         context['session'] = session
 
-        note = cart.notes.replace('#', ': ')
+        if cart.notes:
+            note = cart.notes.replace('#', ': ')
+        else:
+            note = "let's start chat? Say something"
+        
         notes_lines = []
         notes_lines = note.split('\n')
         context['notes_lines'] = notes_lines
     
         return context
 
-class BooksInCartUpdate(TemplateView):
+class BooksInCartUpdate(LoginRequiredMixin,TemplateView):
     template_name = 'managers/books_in_cart_update.html'
     model = BookInCart
+    login_url = '/auth/login'
 
     def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -92,7 +102,7 @@ class BooksInCartUpdate(TemplateView):
 
         new_note = self.request.POST['notes']
         note = cart.notes
-        note += 'user ' + str(self.request.user) + '#' + str(new_note) + '\n'
+        note += 'manager ' + str(self.request.user) + '#' + str(new_note) + '\n'
         cart.notes = note
         cart.save()
         note = cart.notes.replace('#', ': ')
@@ -100,6 +110,45 @@ class BooksInCartUpdate(TemplateView):
         notes_lines = note.split('\n')
         context['notes_lines'] = notes_lines
         
+        return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(*args, **kwargs)
+        return self.render_to_response(context)
+
+
+class AllCartsByStatus(LoginRequiredMixin,ListView):
+    template_name = 'managers/all_carts_by_status.html'
+    model = Cart
+    login_url = '/auth/login'
+
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        print(self.request.POST)  
+
+        carts = Cart.objects.all()
+        context['carts'] = carts
+
+        return context
+
+class AllCartsByStatusUpdate(LoginRequiredMixin,TemplateView):
+    template_name = 'managers/all_carts_by_status_update.html'
+    model = Cart
+    login_url = '/auth/login'
+
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        print(self.request.POST)  
+        status = self.request.POST['status']
+        context['status'] = status
+
+        print(status)
+
+        carts = Cart.objects.filter(status = status)
+        print(carts)
+        context['carts'] = carts
+
         return context
 
     def post(self, request, *args, **kwargs):

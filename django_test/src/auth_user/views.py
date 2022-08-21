@@ -12,7 +12,7 @@ from orders import models as order_model
 
 def def_next_page(value):
     previous = value.request.META.get('HTTP_REFERER')
-    find = ['/auth/','/order/','/orders/']
+    find = ['/auth/','/order/','/orders/','/managers/']
     for url in find:
         x = previous.lower().count(url)
         if x:

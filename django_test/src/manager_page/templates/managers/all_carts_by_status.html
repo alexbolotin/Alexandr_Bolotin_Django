@@ -1,0 +1,24 @@
+{% extends 'base_manager.html' %}
+{% load static %}
+{% block title %}All carts by status{% endblock title %}
+
+{% block header %}Manager {{ user }} {% endblock header %}
+
+{% block body %}
+
+<form action="{% url 'managers:all-carts-by-status-update' %}" method="post">
+    {% csrf_token %}
+        <h3>Select order status: </h3>
+        <p><select name="status">
+            <option value="{{status}}">{{status}}</option>
+            <option value="Processing">Processing</option>
+            <option value="Paid">Paid</option>
+            <option value="Delivery">Delivery</option>
+            <option value="Problemm">Problem</option>
+            <option value="Cancel">Cancel</option>
+        </select></p>
+        <p><input type="submit" value="Update status" class="btn btn-primary"></p>
+</form>
+
+
+{% endblock body %}
