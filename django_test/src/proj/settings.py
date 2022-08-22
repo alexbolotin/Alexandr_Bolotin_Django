@@ -29,7 +29,7 @@ if local_vars.SERVER == 'local':
     ALLOWED_HOSTS = ['127.0.0.1']
 
 else:
-    DEBUG = True
+    DEBUG = False
     ALLOWED_HOSTS = ['bolotin.pythonanywhere.com']
     
     
