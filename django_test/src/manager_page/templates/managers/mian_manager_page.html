@@ -5,18 +5,11 @@
 {% block header %}Manager {{ user }} {% endblock header %}
 
 {% block body %}
-
-<h4>List:</h4><br>
+<h4>List of actions:</h4><br>
     <ul>
         <li><a href="{% url 'managers:all-customers' %}" class="btn btn-primary">All customers</a></li><br>
         <li><a href="{% url 'managers:all-carts' %}" class="btn btn-primary">All carts</a></li><br>
         <li><a href="{% url 'managers:all-carts-by-status' %}" class="btn btn-primary">All carts by status</a></li><br>
-        <li></li>
-        <li></li>
-        <li></li>
     </ul>
-    
-
-    {{carts}}
 
 {% endblock body %}

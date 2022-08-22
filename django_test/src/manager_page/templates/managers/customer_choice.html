@@ -1,0 +1,28 @@
+{% extends 'base_manager.html' %}
+{% load static %}
+{% block title %}Customer profile{% endblock title %}
+
+{% block header %}{{ customer }} profile {% endblock header %}
+
+{% block body %}
+
+<h4>Choice what to see:</h4><br>
+
+<ul>
+    {% comment %} <li><a href="{% url 'customer-profile' %}" class="btn btn-primary">Customer profile view/edit</a></li><br> {% endcomment %}
+</ul>
+<form action="{% url 'managers:customer-profile' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary btn-sm" value='Customers profile'>
+    <input type="hidden" name="username" value="{{ customer }}">
+    <input type="hidden" name="username_old" value="{{ customer }}">
+</form>
+<br>
+<form action="{% url 'managers:all-customers-carts' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary btn-sm" value='All customers carts'>
+    <input type="hidden" name="customer" value="{{ customer }}">
+</form>
+
+
+{% endblock body %}

@@ -9,7 +9,7 @@
 <h4>All customers:</h4><br>
     
 {% for customer in users %}
-    <form action="{% url 'managers:all-customers-carts' %}" method="get">
+    <form action="{% url 'managers:customer-choice' %}" method="get">
         {% csrf_token %}
         <input type="submit" class="btn btn-primary btn-sm" name = "customer" value={{customer}}>
     </form>

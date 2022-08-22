@@ -32,6 +32,11 @@ def if_else(value):
 
 class LoginUserView(auth_views.LoginView):
     template_name = "auth_user/login.html"
+    
+    def get_context_data(self,*args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        print('qqq')
+        return context
 
     def get_default_redirect_url(self):
         url = reverse_lazy("books:book-view-all")              
