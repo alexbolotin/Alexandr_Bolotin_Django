@@ -41,7 +41,6 @@ class MainPage(LoginRequiredMixin,UserPassesTestMixin, TemplateView):
 
         return context
 
-
 class AllCustomers(LoginRequiredMixin,UserPassesTestMixin,ListView):
     template_name = 'managers/all_customers.html'
     model = User
@@ -135,7 +134,6 @@ class CustomerProfile(LoginRequiredMixin,UserPassesTestMixin,TemplateView):
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(*args, **kwargs)
         return self.render_to_response(context)
-
 
 class CustomersCarts(LoginRequiredMixin,UserPassesTestMixin,TemplateView):
     template_name = 'managers/customers_carts.html'
@@ -241,7 +239,6 @@ class BooksInCartUpdate(LoginRequiredMixin,UserPassesTestMixin,TemplateView):
         context = self.get_context_data(*args, **kwargs)
         return self.render_to_response(context)
 
-
 class AllCartsByStatus(LoginRequiredMixin,UserPassesTestMixin,ListView):
     template_name = 'managers/all_carts_by_status.html'
     model = Cart
@@ -277,7 +274,11 @@ class AllCartsByStatusUpdate(LoginRequiredMixin,UserPassesTestMixin,TemplateView
         status = self.request.POST['status']
         context['status'] = status
 
-        carts = Cart.objects.filter(status = status)
+        if status != "All":
+            carts = Cart.objects.filter(status = status)
+        else:
+            carts = Cart.objects.all()
+        
         context['carts'] = carts
 
         return context

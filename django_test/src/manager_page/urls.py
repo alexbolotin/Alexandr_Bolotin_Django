@@ -6,7 +6,6 @@ app_name = 'managers'
 urlpatterns = [ 
     path('main-menu', views.MainPage.as_view(), name = "main-menu"),
     path('all-customers', views.AllCustomers.as_view(), name = "all-customers"),
-    path('all-carts', views.AllCustomers.as_view(), name = "all-carts"),
     path('all-carts-by-status', views.AllCartsByStatus.as_view(), name = "all-carts-by-status"),
     path('all-carts-by-status-update', views.AllCartsByStatusUpdate.as_view(), name = "all-carts-by-status-update"),
     path('customer-choice', views.CustomerСhoice.as_view(), name = "customer-choice"),
