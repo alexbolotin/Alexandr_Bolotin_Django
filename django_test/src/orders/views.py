@@ -107,9 +107,14 @@ class BooksInCartList(TemplateView):
         # print('post',self.request.POST)
         
         customer = self.request.user
-        carts = Cart.objects.filter(Q(customer = customer) & Q(status = "Start"))
-        cart = carts.first()
-        books = BookInCart.objects.filter(cart = cart)
+
+        if str(customer) == 'AnonymousUser':
+            cart = Cart.objects.get(session_id = self.request.POST['session'])
+            books = BookInCart.objects.filter(cart = cart)
+        else:
+            carts = Cart.objects.filter(Q(customer = customer) & Q(status = "Start"))
+            cart = carts.first()
+            books = BookInCart.objects.filter(cart = cart)
 
         context['cart'] = cart
         context['session'] = cart.session_id
